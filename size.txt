@@ -1,0 +1,2 @@
+   text	   data	    bss	    dec	    hex	filename
+  35980	   3420	   5552	  44952	   af98	../FEH_Project.elf
