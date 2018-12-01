@@ -62,7 +62,12 @@ class Player
         int getCharisma()
         {
             return charisma;
-        }        
+        }     
+
+        void setMaxHP(int hp)
+        {
+            maxHP = hp;
+        }   
 
     private: 
 
@@ -104,6 +109,9 @@ class ProteusBot : Enemy
     public: 
 
     private: 
+
+        // This is one of the only values that changes across enemy
+        int maxHP = 100;
     
 };
 
@@ -113,6 +121,8 @@ class TA : Enemy
     public: 
 
     private: 
+
+        int currentHP, maxHP = 200;
     
 };
 
@@ -122,6 +132,8 @@ class MrClingan : Enemy
     public: 
 
     private: 
+
+        int currentHP, maxHP = 500;
     
 };
 
