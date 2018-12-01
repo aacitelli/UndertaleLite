@@ -13,6 +13,9 @@
 #include <FEHIO.h>
 #include <FEHUtility.h>
 
+// Imports for the console version
+// Todo - Remove these when porting to proteus 
+
 // Defining Constants 
 // These ones just cut down on code we have to write 
 #define BLACK FEHLCD::Black
@@ -109,7 +112,11 @@ void playGame()
 // Displays the rules of the game - Run when the user hits "Rules"
 void displayRules()
 {
+    cout << "The rules are simple - SURVIVE." << endl;
 
+    cout << "There are save points after every encounter and at several other points. If you die, you will restart from the most recent point." << endl;
+    cout << "Every monster you kill levels you up, so you are stronger and harder to kill." < endl;
+    cout << "Enjoy!" << endl;
 }
 
 // Displays credits - Run when the user hits "credits"
