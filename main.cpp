@@ -71,9 +71,7 @@ class Player
 
     private: 
 
-        int currentHP, maxHP, strength, intellect, dexterity, charisma;
-        
-    
+        int currentHP, maxHP, strength, intellect, dexterity, charisma;    
 };
 
 // Enemy class
@@ -91,9 +89,15 @@ class Enemy
             return maxHP;
         }
 
+        // Determines how hard the enemies hit 
         int getStrength()
         {
             return strength;
+        }
+
+        void setHP(int hp)
+        {
+            currentHP = hp;
         }
 
     private: 
@@ -235,7 +239,7 @@ bool battle(Player player, Enemy enemy)
     while (player.currentHP > 0 && enemy.currentHP > 0)
     {
         /* The player's turn */
-        int userChoice;
+        int userChoice, damage;
         bool isValidInput = false, PlayerRan = false; 
 
         while (!isValidInput && !playerRan)
@@ -256,7 +260,9 @@ bool battle(Player player, Enemy enemy)
                 {
                     isValidInput = true;
 
-                    // Todo - Code here 
+                    // Todo - Implement slight randomness 
+                    damage = player.getStrength() * 100;
+                    enemy.currentHP -= damage;            
 
                     break;
                 }
@@ -266,7 +272,9 @@ bool battle(Player player, Enemy enemy)
                 {
                     isValidInput = true;
 
-                    // Todo - Code here 
+                    // Todo - Implement slight randomness 
+                    damage = player.getIntellect() * 100;
+                    enemy.currentHP -= damage;
 
                     break;
                 }
@@ -305,7 +313,9 @@ bool battle(Player player, Enemy enemy)
         // Checks the HP to make sure that you're never in a place where both the player and enemy die at the same time.
         if (enemy.currentHP > 0)
         {
-            
+            // My code editor says damage doesn't exist here but I really don't trust it tbh 
+            damage = enemy.getStrength() * 100;
+            player.currentHP -= damage;           
         }
 
         // If the fight is over
