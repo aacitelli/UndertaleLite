@@ -1,3 +1,13 @@
+/* 
+
+    NOTE - EVERYTHING I'M DOING HERE
+    IS PURE C++. THIS WONT WORK WITH
+    THE PROTEUS. THIS IS BASICALLY
+    A CONSOLE VERSION OF THE PROTEUS
+    PROGRAM. 
+
+*/
+
 // Including requisite libraries 
 #include <FEHLCD.h>
 #include <FEHIO.h>
@@ -10,6 +20,10 @@
 
 // Function Prototypes
 void drawMenu(FEHIcon::Icon *buttons, char labels[][20]);
+void playGame();
+void displayRules();
+void displayCredits();
+void displayStats();
 
 int main(void)
 {
@@ -40,6 +54,9 @@ int main(void)
                 menu[1].WhilePressed(x,y);
                 LCD.Clear(BLACK);
                 LCD.WriteLine("PLAYING");
+
+                // Calls the game method 
+                playGame();
             }
 
             if(menu[1].Pressed(x,y,0))
@@ -47,6 +64,9 @@ int main(void)
                 menu[1].WhilePressed(x,y);
                 LCD.Clear(BLACK);
                 LCD.WriteLine("RULES");
+
+                // Calls the rules method 
+                displayRules();
             }
 
             if(menu[2].Pressed(x,y,0))
@@ -54,6 +74,9 @@ int main(void)
                 menu[2].WhilePressed(x,y);
                 LCD.Clear(BLACK);
                 LCD.WriteLine("CREDITS");
+
+                // Calls the credits method 
+                displayCredits();
             }
 
             if(menu[3].Pressed(x,y,0))
@@ -61,6 +84,9 @@ int main(void)
                 menu[3].WhilePressed(x,y);
                 LCD.Clear(BLACK);
                 LCD.WriteLine("STATS");
+
+                // Calls the stats method 
+                displayStats();
             }
         }
     }
@@ -68,10 +94,34 @@ int main(void)
 
 void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
 {
+    // draw the menu in a 2 by 2 array with top and bottom
+    // margins of 10 and left and right margins of 5
+    // with the menu labels, gold borders, and green text
+    FEHIcon::DrawIconArray(buttons, 2, 2, 10, 10, 5, 5, labels, GOLD, GREEN);
+}
 
-        // draw the menu in a 2 by 2 array with top and bottom
-        // margins of 10 and left and right margins of 5
-        // with the menu labels, gold borders, and green text
-        FEHIcon::DrawIconArray(buttons, 2, 2, 10, 10, 5, 5, labels, GOLD, GREEN);
+// Majority of the code - Run whevever the player hits "play game" 
+void playGame()
+{
 
 }
+
+// Displays the rules of the game - Run when the user hits "Rules"
+void displayRules()
+{
+
+}
+
+// Displays credits - Run when the user hits "credits"
+void displayCredits()
+{
+
+}
+
+// Displays Stats  - Run when the user hits "stats"
+// Will probably display stuff like number of times won, deaths, enemies killed, stuff like that idk 
+void displayStats()
+{
+
+}
+
