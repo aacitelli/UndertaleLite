@@ -207,7 +207,11 @@ void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
-    cout << 
+    // Todo - Figure out how to only proceed in the story if the battle function returns true, and
+    // Todo - Rewind back a little bit if not 
+
+    // Write all the content and actual story stuff here 
+        
 }
 
 // Called whenever the user initiates battle with a TA or proteus 
@@ -218,7 +222,75 @@ bool battle(Player player, Enemy enemy)
 {
     while (player.currentHP > 0 && enemy.currentHP > 0)
     {
-        
+        /* The player's turn */
+        int userChoice;
+        bool isValidInput = false, PlayerRan = false; 
+
+        while (!isValidInput && !playerRan)
+        {
+            cout << "Choose Action: " << endl;
+            cout << "(1) Attack (Weapon)" << endl;
+
+            // Todo - I'm trying to say hacking here but code injection sounds cooler and I like extra brownie points 
+            cout << "(2) Attack (Code Injection)" << endl; 
+            cout << "(3) Run Away" << endl;
+
+            cin >> userChoice;
+
+            switch (userChoice)
+            {
+                // Attack w/ weapon 
+                case 1:
+                {
+                    isValidInput = true;
+
+                    // Todo - Code here 
+
+                    break;
+                }
+
+                // Attack w/ code injection
+                case 2:
+                {
+                    isValidInput = true;
+
+                    // Todo - Code here 
+
+                    break;
+                }
+
+                // Attempt to flee 
+                case 3:
+                {
+                    isValidInput = true;
+
+                    // Todo - Make this decide based on charisma - Involves a random variable probably
+                    // Your chance of being able to run is probably just your charisma. Ex. 80 Charisma = 80% chance of being able to run 
+                    if (/* Charisma Check or Other Conditional */ )
+                    {
+                        // Escape the function 
+                        playerRan = true;
+                    }
+
+                    // In this case, the user fails to run away and they still get hit by the enemy 
+                    else 
+                    {
+                        cout << "Your attempt to run away failed." << endl;
+                    }
+
+                    break;
+                }
+
+                default:
+                {
+                    cout << "Input not understood. Please input a valid number." << endl;
+                    break;
+                }
+            }
+        }        
+
+        /* The enemy's turn */
+
     }
 
     if (player.currentHP <= 0)
@@ -231,6 +303,12 @@ bool battle(Player player, Enemy enemy)
     {
         cout << "You won the battle." << endl;
         return true;
+    }
+
+    else if (playerRan)
+    {
+        cout << "You successfully ran from the battle." << endl;
+        return false; // ? What should get returned here? 
     }
 
     // Debug 
