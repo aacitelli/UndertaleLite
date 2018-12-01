@@ -28,6 +28,10 @@ void displayRules();
 void displayCredits();
 void displayStats();
 
+// Game statistics, displayed when the user hits "STATS" on the main menu
+// Todo - Figure out if we need any more statistics 
+int gamesPlayed, gamesWon, deaths, monstersDefeated; 
+
 int main(void)
 {
     /*Clear screen, and set screen for writing*/
@@ -132,6 +136,12 @@ void displayCredits()
 // Will probably display stuff like number of times won, deaths, enemies killed, stuff like that idk 
 void displayStats()
 {
+    cout << "Game Statistics: " << endl;
+
+    cout << "Games Played: " << gamesPlayed << endl;
+    cout << "Games Won: " << gamesWon << endl;
+    cout << "Monsters Defeated: " << monstersDefeated << endl;
+    cout << "Deaths: " << deaths << endl;
 
 }
 
