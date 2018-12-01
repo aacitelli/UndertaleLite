@@ -9,9 +9,14 @@
 */
 
 // Including requisite libraries 
+// These are just commented out b/c this is a pure c++ version 
+/* 
 #include <FEHLCD.h>
 #include <FEHIO.h>
 #include <FEHUtility.h>
+*/
+
+#include <iostream>
 
 // Imports for the console version
 // Todo - Remove these when porting to proteus 
@@ -22,8 +27,9 @@
 #define WHITE FEHLCD::White
 
 // Function Prototypes
-void drawMenu(FEHIcon::Icon *buttons, char labels[][20]);
-void playGame();
+// Commented out b/c pur c++
+//void drawMenu(FEHIcon::Icon *buttons, char labels[][20]);
+//void playGame(Player* player, Enemy* enemy);
 void displayRules();
 void displayCredits();
 void displayStats();
@@ -148,8 +154,8 @@ int gamesPlayed, gamesWon, deaths, monstersDefeated;
 int main(void)
 {
     /*Clear screen, and set screen for writing*/
-    LCD.Clear(BLACK);
-    LCD.SetFontColor(WHITE);
+    //LCD.Clear(BLACK);
+    //LCD.SetFontColor(WHITE);
 
     // Defining Intro Screen Variables 
     int touchCount;
@@ -157,11 +163,23 @@ int main(void)
     bool run = true, press = true;
 
     // Declaring Icon Array
-    FEHIcon::Icon menu[4];
+    //FEHIcon::Icon menu[4];
 
     // Defining Menu Text Labels
     char menu_labels[4][20] = {"START","RULES","CREDITS","STATS"};
 
+    bool exitVar = false;
+
+    // Pure c++ replacement for below code
+    while (!exitVar)
+    {
+        cout << "(1) Play Game" << endl;
+        cout << "(2) Display Stats" << endl;
+        cout << "(3) Display Rules" << endl;
+        cout << "(4) Display Credits" << endl;
+    }
+
+    /* Commented out b/c of pure c++
     // Draws the menu screen 
     while (run)
     {
@@ -210,8 +228,10 @@ int main(void)
             }
         }
     }
+    */
 }
 
+/*
 void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
 {
     // draw the menu in a 2 by 2 array with top and bottom
@@ -219,6 +239,7 @@ void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
     // with the menu labels, gold borders, and green text
     FEHIcon::DrawIconArray(buttons, 2, 2, 10, 10, 5, 5, labels, GOLD, GREEN);
 }
+*/
 
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
@@ -227,6 +248,26 @@ void playGame()
     // Todo - Rewind back a little bit if not 
 
     // Write all the content and actual story stuff here 
+    cout << "Example Story Intro" << endl;
+
+    // Initializing the player object 
+    Player player; 
+
+    cout << "Starting tests fight" << endl;
+
+    // Initializing a Mr. Clingan object (a sentence I never anticipated I'd type) 
+    MrClingan clinganEnemy;
+
+    if (battle(&player, &clinganEnemy))
+    {
+        cout << "You won the battle." << endl;
+    }
+
+    else 
+    {
+        cout << "You lost the battle." << endl;
+    }
+
         
 }
 
@@ -234,9 +275,13 @@ void playGame()
 // Todo - Maybe tweak the second parameter b/c it might not always be an enemy idk 
 // ? Should this be passing by address? idk if it'll save the value 
 // ? What should this return? Maybe a boolean? 
-bool battle(Player player, Enemy enemy)
+bool battle(Player *player, Enemy *enemy)
 {
-    while (player.currentHP > 0 && enemy.currentHP > 0)
+    /* Note - both player and enemy are pointers in order for their values to persist outside of the individual value - 
+        This means their values have to be accessed w/ arrow syntax (->) */
+
+    // Looping until someone's health is less than zero 
+    while (player -> currentHP > 0 && enemy -> currentHP > 0)
     {
         /* The player's turn */
         int userChoice, damage;
@@ -261,8 +306,8 @@ bool battle(Player player, Enemy enemy)
                     isValidInput = true;
 
                     // Todo - Implement slight randomness 
-                    damage = player.getStrength() * 100;
-                    enemy.currentHP -= damage;            
+                    damage = player -> getStrength() * 100;
+                    enemy -> currentHP -= damage;            
 
                     break;
                 }
@@ -273,8 +318,8 @@ bool battle(Player player, Enemy enemy)
                     isValidInput = true;
 
                     // Todo - Implement slight randomness 
-                    damage = player.getIntellect() * 100;
-                    enemy.currentHP -= damage;
+                    damage = player -> getIntellect() * 100;
+                    enemy -> currentHP -= damage;
 
                     break;
                 }
@@ -314,8 +359,8 @@ bool battle(Player player, Enemy enemy)
         if (enemy.currentHP > 0)
         {
             // My code editor says damage doesn't exist here but I really don't trust it tbh 
-            damage = enemy.getStrength() * 100;
-            player.currentHP -= damage;           
+            damage = enemy -> getStrength() * 100;
+            player -> currentHP -= damage;           
         }
 
         // If the fight is over
@@ -326,13 +371,13 @@ bool battle(Player player, Enemy enemy)
 
     }
 
-    if (player.currentHP <= 0)
+    if (player -> currentHP <= 0)
     {
         cout << "You lost the battle. Restarting from previous savepoint." << endl;
         return false;
     }
 
-    else if (enemy.currentHP <= 0)
+    else if (enemy -> currentHP <= 0)
     {
         cout << "You won the battle." << endl;
         return true;
