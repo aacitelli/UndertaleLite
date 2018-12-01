@@ -76,7 +76,25 @@ class Enemy
 {
     public: 
 
+        int getCurrentHP()
+        {
+            return currentHP; 
+        }
+
+        int getMaxHP()
+        {
+            return maxHP;
+        }
+
+        int getStrength()
+        {
+            return strength;
+        }
+
     private: 
+
+        // Defining a max hp lets us add enemy heals more easily (the proteus can repair itself or smth)
+        int currentHP, maxHP, strength; 
     
 };
 
