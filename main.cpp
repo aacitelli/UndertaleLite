@@ -28,6 +28,51 @@ void displayRules();
 void displayCredits();
 void displayStats();
 
+// The player class - What the user plays as 
+class Player
+{
+    public: 
+
+    private: 
+    
+};
+
+// Enemy class
+class Enemy
+{
+    public: 
+
+    private: 
+    
+};
+
+// Proteus bot class
+class ProteusBot : Enemy
+{
+    public: 
+
+    private: 
+    
+};
+
+// TA class
+class TA : Enemy
+{
+    public: 
+
+    private: 
+    
+};
+
+// Clingan class 
+class MrClingan : Enemy
+{
+    public: 
+
+    private: 
+    
+};
+
 // Game statistics, displayed when the user hits "STATS" on the main menu
 // Todo - Figure out if we need any more statistics 
 int gamesPlayed, gamesWon, deaths, monstersDefeated; 
