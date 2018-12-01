@@ -207,7 +207,38 @@ void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
+    cout << 
+}
 
+// Called whenever the user initiates battle with a TA or proteus 
+// Todo - Maybe tweak the second parameter b/c it might not always be an enemy idk 
+// ? Should this be passing by address? idk if it'll save the value 
+// ? What should this return? Maybe a boolean? 
+bool battle(Player player, Enemy enemy)
+{
+    while (player.currentHP > 0 && enemy.currentHP > 0)
+    {
+        
+    }
+
+    if (player.currentHP <= 0)
+    {
+        cout << "You lost the battle. Restarting from previous savepoint." << endl;
+        return false;
+    }
+
+    else if (enemy.currentHP <= 0)
+    {
+        cout << "You won the battle." << endl;
+        return true;
+    }
+
+    // Debug 
+    else
+    {
+        cout << "Something went wrong with the battle method in the \"who died\" logic." << endl;
+        return false;
+    }
 }
 
 // Displays the rules of the game - Run when the user hits "Rules"
