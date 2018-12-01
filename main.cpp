@@ -122,7 +122,10 @@ void displayRules()
 // Displays credits - Run when the user hits "credits"
 void displayCredits()
 {
+    cout << "Credits: " << endl;
 
+    cout << "Game by Anden Acitelli and Sri Uppalapati." << endl;
+    cout << "Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were." << endl;
 }
 
 // Displays Stats  - Run when the user hits "stats"
