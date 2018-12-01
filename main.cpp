@@ -33,7 +33,41 @@ class Player
 {
     public: 
 
+        // This is apparently best practice so here we go 
+        int getCurrentHP()
+        {
+            return currentHP; 
+        }
+
+        int getMaxHP()
+        {
+            return maxHP;
+        }
+
+        int getStrength()
+        {
+            return strength;
+        }
+
+        int getIntellect()
+        {
+            return intellect;
+        }
+
+        int getDexterity()
+        {
+            return dexterity;
+        }
+
+        int getCharisma()
+        {
+            return charisma;
+        }        
+
     private: 
+
+        int currentHP, maxHP, strength, intellect, dexterity, charisma;
+        
     
 };
 
