@@ -290,6 +290,17 @@ bool battle(Player player, Enemy enemy)
         }        
 
         /* The enemy's turn */
+        // Checks the HP to make sure that you're never in a place where both the player and enemy die at the same time.
+        if (enemy.currentHP > 0)
+        {
+            
+        }
+
+        // If the fight is over
+        else
+        {
+            break;
+        }
 
     }
 
@@ -308,7 +319,7 @@ bool battle(Player player, Enemy enemy)
     else if (playerRan)
     {
         cout << "You successfully ran from the battle." << endl;
-        return false; // ? What should get returned here? 
+        return false; // ? What should get returned here? See runGame() function or w/e I called it 
     }
 
     // Debug 
