@@ -113,7 +113,7 @@ class ProteusBot : Enemy
     private: 
 
         // This is one of the only values that changes across enemy
-        int maxHP = 100;
+        int currentHP = 100, maxHP = 100;
     
 };
 
@@ -124,7 +124,7 @@ class TA : Enemy
 
     private: 
 
-        int currentHP, maxHP = 200;
+        int currentHP = 200, maxHP = 200;
     
 };
 
@@ -135,7 +135,7 @@ class MrClingan : Enemy
 
     private: 
 
-        int currentHP, maxHP = 500;
+        int currentHP = 500, maxHP = 500;
     
 };
 
@@ -267,12 +267,13 @@ void playGame()
     
 }
 
-/* Using return codes because it's a very customizable way of basically doing a switch statement dependent on if you won the battle. 
+/* Using return codes because it's a very customizable way of basically doing a switch statement dependent on the result of a method.
 
     Return Codes:
     0 = Player Won 
     1 = Player Lost
     2 = Player Successfully Ran 
+
 */
 int battle(Player *player, Enemy *enemy)
 {
@@ -288,6 +289,7 @@ int battle(Player *player, Enemy *enemy)
         cout << "(1) Attack - Weapon" << endl;
         cout << "(2) Attack - Code Injection" << endl;
         cout << "(3) Attempt to Flee" << endl;
+        cout << "Your Choice: "; 
 
         cin >> userChoice;
 
@@ -303,6 +305,7 @@ int battle(Player *player, Enemy *enemy)
                 enemy -> setCurrentHP(enemy -> getCurrentHP() - damage); 
                 
                 cout << "You did " << damage << " damage to the monster" << endl;
+
                 // Breaking out of switch statement
                 break;
             }
@@ -337,7 +340,7 @@ int battle(Player *player, Enemy *enemy)
                 {
                     cout << "Your attempt to escape failed." << endl;
                 }
-                
+
                 // Breaking out of switch statement
                 break;
             }
