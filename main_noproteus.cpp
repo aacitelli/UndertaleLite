@@ -66,10 +66,18 @@ class Player
             maxHP = hp;
         }   
 
+        void setSavePointValues()
+        {
+
+        }
+
     private: 
 
         // Base values - These can range from 0 to 100 theoretically 
         int currentHP = 100, maxHP = 100, strength = 10, intellect = 10, dexterity = 10, charisma = 50;    
+        
+        // Save point values
+        int spHP = 100, spStrength = 10, spIntellect = 10, spDexterity = 10, spCharisma = 10;
 };
 
 // Enemy class
@@ -223,52 +231,11 @@ int main(void)
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
-    // Todo - Figure out how to only proceed in the story if the battle function returns true, and
-    // Todo - Rewind back a little bit if not 
-
-    // Write all the content and actual story stuff here 
-    cout << "Example Story Intro" << endl;
-
-    // Initializing the player object 
-    Player player; 
-
-    cout << "Starting test fight" << endl;
-
-    // Initializing a Mr. Clingan object (a sentence I never anticipated I'd type) 
-    MrClingan enemy;
-
-    int battleResult;
-    bool wonBattle = false;
-
-    while (!wonBattle)
-    {
-        battleResult = battle(&player, &enemy);
-
-        switch(battleResult)
-        {
-            case 0:
-            {
-                cout << "You won the battle." << endl;
-                wonBattle = true;
-                break;
-            }
-
-            case 1:
-            {
-                cout << "You lost the battle." << endl;
-                break;
-            }
-
-            case 2:
-            {
-                cout << "You ran from the battle." << endl;
-                break;
-            }
-        }  
-    }
-
-    cout << "Debug: You won the battle!" << endl;
     
+
+
+    
+
 }
 
 /* Using return codes because it's a very customizable way of basically doing a switch statement dependent on the result of a method.
