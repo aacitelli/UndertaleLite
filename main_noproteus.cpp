@@ -234,6 +234,9 @@ void playGame()
     }        
 }
 
+/* Pretty sure I'm just going to rewrite this function b/c it's a clusterfuck at the moment and doesn't seem to accept
+    any monsters as a parameter if they aren't a generic "Enemy" */
+
 // Called whenever the user initiates battle with a TA or proteus 
 // Todo - Maybe tweak the second parameter b/c it might not always be an enemy idk 
 // ? Should this be passing by address? idk if it'll save the value 
