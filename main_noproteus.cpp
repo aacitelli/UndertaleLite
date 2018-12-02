@@ -245,19 +245,43 @@ void playGame()
                 If you need to break out otherwise (if the user passes a segment) you just update the savepoint, 
                 THEN break. */ 
 
-                
+
             // Start of the game 
             case 0:
             {
+                // No need to initialize save point values b/c that's done in the constructor b/c this is the game start
 
-                
+                // Rest of the code here 
+
+                // Test battle to make sure the program reacts as expected
+
+                // Updating Save Point b/c the user completed this section 
+                savePoint = 1;
+                break;
             }
 
             case 1:
             {
                 // Updates save point values at the beginning of every save point so that it can be easily reset 
                 player.setSavePointValues();
+
+                // Updating save point b/c the user completed this section 
+                savePoint = 2;
+                break;
             }
+
+            case 2: 
+            {
+                player.setSavePointValues();
+
+                // Rest of the code here 
+
+                // Updating save point b/c the user completed this section 
+                savePoint = 3;
+                break;
+            }
+
+            // Adieu
         }
     }
 
@@ -266,9 +290,13 @@ void playGame()
 
 }
 
-/* Using return codes because it's a very customizable way of basically doing a switch statement dependent on the result of a method.
+/* \
 
-    Return Codes:
+
+    Using return codes because it's a very customizable way of basically 
+    doing a switch statement dependent on the result of a method.
+
+    Return Codes Key:
     0 = Player Won 
     1 = Player Lost
     2 = Player Successfully Ran 
