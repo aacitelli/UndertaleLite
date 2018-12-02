@@ -139,14 +139,8 @@ int gamesPlayed, gamesWon, deaths, monstersDefeated;
 
 int main(void)
 {
-    // Defining Intro Screen Variables 
-    int touchCount;
-    float x,y;
-    bool run = true, press = true;
-    // Defining Menu Text Labels
-    char menu_labels[4][20] = {"START","RULES","CREDITS","STATS"};
-
     bool exitVar = false;
+    int userInput;
 
     // Pure c++ replacement for below code
     while (!exitVar)
@@ -155,7 +149,51 @@ int main(void)
         cout << "(2) Display Stats" << endl;
         cout << "(3) Display Rules" << endl;
         cout << "(4) Display Credits" << endl;
+        cout << "(5) Quit" << endl; // ? Do we even need this case? It's really easy to implement so we should keep it in 
+
+        cin >> userInput;
+
+        switch (userInput)
+        {
+            // Play game 
+            case 1:
+            {
+                playGame();
+                break;
+            }
+
+            // Display Stats
+            case 2:
+            {
+                displayStats();
+                break;
+            }
+
+            // Display Rules
+            case 3:
+            {
+                displayRules();
+                break;
+            }
+
+            // Display Credits
+            case 4:
+            {
+                displayCredits();
+                break;
+            }
+
+            // Quit the game 
+            case 5:
+            {
+                exitVar = true;
+                break;
+            }
+        }
     }
+
+    // If it made it here, no errors happened, so a normal exit code 
+    return 0;
 }
 
 // Majority of the code - Run whevever the player hits "play game" 
