@@ -48,6 +48,11 @@ class Player
             return charisma;
         }     
 
+        void setCurrentHP(int hp)
+        {
+            currentHP = hp;
+        }
+
         void setMaxHP(int hp)
         {
             maxHP = hp;
@@ -79,7 +84,7 @@ class Enemy
             return strength;
         }
 
-        void setHP(int hp)
+        void setCurrentHP(int hp)
         {
             currentHP = hp;
         }
@@ -128,7 +133,8 @@ class MrClingan : Enemy
 /* Function Protypes */
 
 // Must be declared after class declarations
-void playGame(Player* player, Enemy* enemy); 
+void playGame(); 
+bool battle(Player* player, Enemy* enemy);
 void displayRules();
 void displayCredits();
 void displayStats();
@@ -151,7 +157,11 @@ int main(void)
         cout << "(4) Display Credits" << endl;
         cout << "(5) Quit" << endl; // ? Do we even need this case? It's really easy to implement so we should keep it in 
 
+        cout << "Your Choice: ";
         cin >> userInput;
+
+        // Spacing
+        cout << endl << endl;
 
         switch (userInput)
         {
@@ -211,9 +221,9 @@ void playGame()
     cout << "Starting tests fight" << endl;
 
     // Initializing a Mr. Clingan object (a sentence I never anticipated I'd type) 
-    MrClingan clinganEnemy;
+    Enemy enemy;
 
-    if (battle(&player, &clinganEnemy))
+    if (battle(&player, &enemy))
     {
         cout << "You won the battle." << endl;
     }
@@ -233,12 +243,15 @@ bool battle(Player *player, Enemy *enemy)
     /* Note - both player and enemy are pointers in order for their values to persist outside of the individual value - 
         This means their values have to be accessed w/ arrow syntax (->) */
 
+    // Todo - Scope might be screwy and unintended on this, make sure this works right 
+    bool playerRan = false; 
+
     // Looping until someone's health is less than zero 
-    while (player -> currentHP > 0 && enemy -> currentHP > 0)
+    while (player -> getCurrentHP() > 0 && enemy -> getCurrentHP() > 0)
     {
         /* The player's turn */
         int userChoice, damage;
-        bool isValidInput = false, PlayerRan = false; 
+        bool isValidInput = false; 
 
         while (!isValidInput && !playerRan)
         {
@@ -260,7 +273,7 @@ bool battle(Player *player, Enemy *enemy)
 
                     // Todo - Implement slight randomness 
                     damage = player -> getStrength() * 100;
-                    enemy -> currentHP -= damage;            
+                    enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);            
 
                     break;
                 }
@@ -272,7 +285,7 @@ bool battle(Player *player, Enemy *enemy)
 
                     // Todo - Implement slight randomness 
                     damage = player -> getIntellect() * 100;
-                    enemy -> currentHP -= damage;
+                    enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);
 
                     break;
                 }
@@ -284,7 +297,8 @@ bool battle(Player *player, Enemy *enemy)
 
                     // Todo - Make this decide based on charisma - Involves a random variable probably
                     // Your chance of being able to run is probably just your charisma. Ex. 80 Charisma = 80% chance of being able to run 
-                    if (/* Charisma Check or Other Conditional */ )
+                    // * Note - This will pass every time b/c it's not really implemented yet 
+                    if (player -> getCharisma() > 0)
                     {
                         // Escape the function 
                         playerRan = true;
@@ -309,11 +323,11 @@ bool battle(Player *player, Enemy *enemy)
 
         /* The enemy's turn */
         // Checks the HP to make sure that you're never in a place where both the player and enemy die at the same time.
-        if (enemy.currentHP > 0)
+        if (enemy -> getCurrentHP() > 0)
         {
             // My code editor says damage doesn't exist here but I really don't trust it tbh 
             damage = enemy -> getStrength() * 100;
-            player -> currentHP -= damage;           
+            player -> setCurrentHP(player -> getCurrentHP() - damage);           
         }
 
         // If the fight is over
@@ -324,13 +338,13 @@ bool battle(Player *player, Enemy *enemy)
 
     }
 
-    if (player -> currentHP <= 0)
+    if (player -> getCurrentHP() <= 0)
     {
         cout << "You lost the battle. Restarting from previous savepoint." << endl;
         return false;
     }
 
-    else if (enemy -> currentHP <= 0)
+    else if (enemy -> getCurrentHP() <= 0)
     {
         cout << "You won the battle." << endl;
         return true;
@@ -356,8 +370,11 @@ void displayRules()
     cout << "The rules are simple - SURVIVE." << endl;
 
     cout << "There are save points after every encounter and at several other points. If you die, you will restart from the most recent point." << endl;
-    cout << "Every monster you kill levels you up, so you are stronger and harder to kill." < endl;
+    cout << "Every monster you kill levels you up, so you are stronger and harder to kill." << endl;
     cout << "Enjoy!" << endl;
+
+    // Spacing
+    cout << endl;
 }
 
 // Displays credits - Run when the user hits "credits"
@@ -367,6 +384,9 @@ void displayCredits()
 
     cout << "Game by Anden Acitelli and Sri Uppalapati." << endl;
     cout << "Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were." << endl;
+    
+    // Spacing
+    cout << endl;
 }
 
 // Displays Stats  - Run when the user hits "stats"
@@ -380,5 +400,7 @@ void displayStats()
     cout << "Monsters Defeated: " << monstersDefeated << endl;
     cout << "Deaths: " << deaths << endl;
 
+    // Spacing 
+    cout << endl;
 }
 
