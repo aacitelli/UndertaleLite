@@ -231,7 +231,35 @@ int main(void)
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
-    
+    bool quit = false;
+    int savePoint; // Tracks where they are in the game 
+
+    // Initializing the player
+    Player player;
+
+    while (!quit)
+    {
+        switch(savePoint)
+        {
+            /* If the user ever dies or has to go back to a previous savepoint, you just break out of the savepoint.
+                If you need to break out otherwise (if the user passes a segment) you just update the savepoint, 
+                THEN break. */ 
+
+                
+            // Start of the game 
+            case 0:
+            {
+
+                
+            }
+
+            case 1:
+            {
+                // Updates save point values at the beginning of every save point so that it can be easily reset 
+                player.setSavePointValues();
+            }
+        }
+    }
 
 
     
