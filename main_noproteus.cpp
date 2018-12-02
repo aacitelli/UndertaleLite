@@ -163,7 +163,7 @@ int main(void)
         cout << "(2) Display Stats" << endl;
         cout << "(3) Display Rules" << endl;
         cout << "(4) Display Credits" << endl;
-        cout << "(5) Quit" << endl; // ? Do we even need this case? It's really easy to implement so we should keep it in 
+        cout << "(5) Quit" << endl; 
 
         cout << "Your Choice: ";
         cin >> userInput;
@@ -204,6 +204,7 @@ int main(void)
             // Quit the game 
             case 5:
             {
+                cout << "Hope you had fun! Exiting game." << endl;
                 exitVar = true;
                 break;
             }
@@ -226,7 +227,7 @@ void playGame()
     // Initializing the player object 
     Player player; 
 
-    cout << "Starting tests fight" << endl;
+    cout << "Starting test fight" << endl;
 
     // Initializing a Mr. Clingan object (a sentence I never anticipated I'd type) 
     Enemy enemy;
@@ -251,128 +252,6 @@ void playGame()
 // ? What should this return? Maybe a boolean? 
 bool battle(Player *player, Enemy *enemy)
 {
-    /* Note - both player and enemy are pointers in order for their values to persist outside of the individual value - 
-        This means their values have to be accessed w/ arrow syntax (->) */
-
-    // Todo - Scope might be screwy and unintended on this, make sure this works right 
-    bool playerRan = false; 
-
-    // Looping until someone's health is less than zero 
-    while (player -> getCurrentHP() > 0 && enemy -> getCurrentHP() > 0)
-    {
-        /* The player's turn */
-        int userChoice, damage;
-        bool isValidInput = false; 
-
-        while (!isValidInput && !playerRan)
-        {
-            cout << "Choose Action: " << endl;
-            cout << "(1) Attack (Weapon)" << endl;
-
-            // Todo - I'm trying to say hacking here but code injection sounds cooler and I like extra brownie points 
-            cout << "(2) Attack (Code Injection)" << endl; 
-            cout << "(3) Run Away" << endl;
-
-            cin >> userChoice;
-
-            switch (userChoice)
-            {
-                // Attack w/ weapon 
-                case 1:
-                {
-                    isValidInput = true;
-
-                    // Todo - Implement slight randomness 
-                    damage = player -> getStrength() * 100;
-                    enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);            
-
-                    break;
-                }
-
-                // Attack w/ code injection
-                case 2:
-                {
-                    isValidInput = true;
-
-                    // Todo - Implement slight randomness 
-                    damage = player -> getIntellect() * 100;
-                    enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);
-
-                    break;
-                }
-
-                // Attempt to flee 
-                case 3:
-                {
-                    isValidInput = true;
-
-                    // Todo - Make this decide based on charisma - Involves a random variable probably
-                    // Your chance of being able to run is probably just your charisma. Ex. 80 Charisma = 80% chance of being able to run 
-                    // * Note - This will pass every time b/c it's not really implemented yet 
-                    if (player -> getCharisma() > 0)
-                    {
-                        // Escape the function 
-                        playerRan = true;
-                    }
-
-                    // In this case, the user fails to run away and they still get hit by the enemy 
-                    else 
-                    {
-                        cout << "Your attempt to run away failed." << endl;
-                    }
-
-                    break;
-                }
-
-                default:
-                {
-                    cout << "Input not understood. Please input a valid number." << endl;
-                    break;
-                }
-            }
-        }        
-
-        /* The enemy's turn */
-        // Checks the HP to make sure that you're never in a place where both the player and enemy die at the same time.
-        if (enemy -> getCurrentHP() > 0)
-        {
-            // My code editor says damage doesn't exist here but I really don't trust it tbh 
-            damage = enemy -> getStrength() * 100;
-            player -> setCurrentHP(player -> getCurrentHP() - damage);           
-        }
-
-        // If the fight is over
-        else
-        {
-            break;
-        }
-
-    }
-
-    if (player -> getCurrentHP() <= 0)
-    {
-        cout << "You lost the battle. Restarting from previous savepoint." << endl;
-        return false;
-    }
-
-    else if (enemy -> getCurrentHP() <= 0)
-    {
-        cout << "You won the battle." << endl;
-        return true;
-    }
-
-    else if (playerRan)
-    {
-        cout << "You successfully ran from the battle." << endl;
-        return false; // ? What should get returned here? See runGame() function or w/e I called it 
-    }
-
-    // Debug 
-    else
-    {
-        cout << "Something went wrong with the battle method in the \"who died\" logic." << endl;
-        return false;
-    }
 }
 
 // Displays the rules of the game - Run when the user hits "Rules"
