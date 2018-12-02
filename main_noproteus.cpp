@@ -68,7 +68,8 @@ class Player
 
     private: 
 
-        int currentHP, maxHP, strength, intellect, dexterity, charisma;    
+        // Base values - These can range from 0 to 100 theoretically 
+        int currentHP = 100, maxHP = 100, strength = 10, intellect = 10, dexterity = 10, charisma = 50;    
 };
 
 // Enemy class
@@ -142,7 +143,7 @@ class MrClingan : Enemy
 
 // Must be declared after class declarations
 void playGame(); 
-bool battle(Player* player, Enemy* enemy);
+int battle(Player* player, Enemy* enemy);
 void displayRules();
 void displayCredits();
 void displayStats();
@@ -232,26 +233,136 @@ void playGame()
     // Initializing a Mr. Clingan object (a sentence I never anticipated I'd type) 
     Enemy enemy;
 
-    if (battle(&player, &enemy))
+    int battleResult;
+    bool wonBattle = false;
+
+    while (!wonBattle)
     {
-        cout << "You won the battle." << endl;
+        battleResult = battle(&player, &enemy);
+
+        switch(battleResult)
+        {
+            case 0:
+            {
+                cout << "You won the battle." << endl;
+                wonBattle = true;
+                break;
+            }
+
+            case 1:
+            {
+                cout << "You lost the battle." << endl;
+                break;
+            }
+
+            case 2:
+            {
+                cout << "You ran from the battle." << endl;
+                break;
+            }
+        }  
     }
 
-    else 
-    {
-        cout << "You lost the battle." << endl;
-    }        
+    cout << "Debug: You won the battle!" << endl;
+    
 }
 
-/* Pretty sure I'm just going to rewrite this function b/c it's a clusterfuck at the moment and doesn't seem to accept
-    any monsters as a parameter if they aren't a generic "Enemy" */
+/* Using return codes because it's a very customizable way of basically doing a switch statement dependent on if you won the battle. 
 
-// Called whenever the user initiates battle with a TA or proteus 
-// Todo - Maybe tweak the second parameter b/c it might not always be an enemy idk 
-// ? Should this be passing by address? idk if it'll save the value 
-// ? What should this return? Maybe a boolean? 
-bool battle(Player *player, Enemy *enemy)
+    Return Codes:
+    0 = Player Won 
+    1 = Player Lost
+    2 = Player Successfully Ran 
+*/
+int battle(Player *player, Enemy *enemy)
 {
+    // This variable gets changed whenever a condition to exit gets tripped 
+    bool canExitLoop = false, userRan = false;
+    int userChoice, damage; 
+
+    // Loops until somebody dies or the user successfully ran from the battle 
+    while (!canExitLoop && !userRan)
+    {
+        /* Player Action */
+        cout << "Options: " << endl;
+        cout << "(1) Attack - Weapon" << endl;
+        cout << "(2) Attack - Code Injection" << endl;
+        cout << "(3) Attempt to Flee" << endl;
+
+        cin >> userChoice;
+
+        switch(userChoice)
+        {
+            // Normal Attack
+            case 1:
+            {
+                // Determining damage based on player strength 
+                damage = player -> getStrength();
+
+                // Actually subtracting that from the monster 
+                enemy -> setCurrentHP(enemy -> getCurrentHP() - damage); 
+                
+                // Breaking out of switch statement
+                break;
+            }
+
+            // Code Injection Attack
+            case 2:
+            {
+                // Determining damage based on player intellect
+                damage = player -> getIntellect();
+
+                // Actually subtracting that from the monster 
+                enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);
+
+                // Breaking out of switch statement
+                break;
+            }
+
+            // Flee 
+            case 3:
+            {
+                // Determining if the player successfully fled 
+                // This is set to zero for debug purposes
+                if (player -> getDexterity() > 0)
+                {
+                    userRan = true;
+                }
+
+                // Breaking out of switch statement
+                break;
+            }
+        }
+
+        // Checking if the monster is dead 
+        if (enemy -> getCurrentHP() <= 0)
+        {
+            canExitLoop = true;
+        }
+
+        /* Monster Action */
+
+        // Have to make sure the monster isn't dead or the player ran, in which case battle is over and these calculations don't need to happen 
+        if (!canExitLoop && !userRan)
+        {
+            // Same procedure as above, except w/o the choice and switch statement 
+            damage = enemy -> getStrength();
+            player -> setCurrentHP(player -> getCurrentHP() - damage);
+        }
+
+        // checking if the player is dead
+        if (player -> getCurrentHP() <= 0)
+        {
+            canExitLoop = true;
+        }
+    }
+
+    // Computing the result of the battle
+    if (userRan)
+    {
+        cout << "You ran successfully." << endl;
+
+    }
 }
 
 // Displays the rules of the game - Run when the user hits "Rules"
