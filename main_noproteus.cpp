@@ -106,7 +106,7 @@ class Enemy
 };
 
 // Proteus bot class
-class ProteusBot : Enemy
+class ProteusBot : public Enemy
 {
     public: 
 
@@ -118,7 +118,7 @@ class ProteusBot : Enemy
 };
 
 // TA class
-class TA : Enemy
+class TA : public Enemy
 {
     public: 
 
@@ -129,7 +129,7 @@ class TA : Enemy
 };
 
 // Clingan class 
-class MrClingan : Enemy
+class MrClingan : public Enemy
 {
     public: 
 
@@ -155,8 +155,8 @@ int gamesPlayed, gamesWon, deaths, monstersDefeated;
 int main(void)
 {
     // Clears Console Window
+    // Todo - Remove this on proteus version 
     system("cls"); // Windows
-    system("clear"); // Linux
 
     bool exitVar = false;
     int userInput;
@@ -235,7 +235,7 @@ void playGame()
     cout << "Starting test fight" << endl;
 
     // Initializing a Mr. Clingan object (a sentence I never anticipated I'd type) 
-    Enemy enemy;
+    MrClingan enemy;
 
     int battleResult;
     bool wonBattle = false;
@@ -364,6 +364,8 @@ int battle(Player *player, Enemy *enemy)
             // Same procedure as above, except w/o the choice and switch statement 
             damage = enemy -> getStrength();
             player -> setCurrentHP(player -> getCurrentHP() - damage);
+
+            cout << "The monster did " << damage << " damage to you." << endl;
         }
 
         // checking if the player is dead
