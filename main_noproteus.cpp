@@ -10,6 +10,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 // The player class - What the user plays as 
 class Player
 {
