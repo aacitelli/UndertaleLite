@@ -302,6 +302,7 @@ int battle(Player *player, Enemy *enemy)
                 // Actually subtracting that from the monster 
                 enemy -> setCurrentHP(enemy -> getCurrentHP() - damage); 
                 
+                cout << "You did " << damage << " damage to the monster" << endl;
                 // Breaking out of switch statement
                 break;
             }
@@ -315,6 +316,8 @@ int battle(Player *player, Enemy *enemy)
                 // Actually subtracting that from the monster 
                 enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);
 
+                cout << "You did " << damage << " damage to the monster." << endl;
+
                 // Breaking out of switch statement
                 break;
             }
@@ -326,9 +329,15 @@ int battle(Player *player, Enemy *enemy)
                 // This is set to zero for debug purposes
                 if (player -> getDexterity() > 0)
                 {
+                    cout << "You successfully ran from the monster." << endl;
                     userRan = true;
                 }
 
+                else
+                {
+                    cout << "Your attempt to escape failed." << endl;
+                }
+                
                 // Breaking out of switch statement
                 break;
             }
