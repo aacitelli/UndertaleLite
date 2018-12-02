@@ -6,6 +6,13 @@
     A CONSOLE VERSION OF THE PROTEUS
     PROGRAM. 
 
+    Basically, the goal is to make a fully 
+    funtioning c++ version and just port it 
+    over to the proteus. This basically means
+    just changing certain function calls
+    and implementing the buttons system or 
+    w/e we end up doing.
+
 */
 
 #include <iostream>
@@ -17,7 +24,8 @@ class Player
 {
     public: 
 
-        // This is apparently best practice so here we go 
+        /* There is zero chance that what I'm about to do is best practice, but here we go nonetheless */ 
+
         int getCurrentHP()
         {
             return currentHP; 

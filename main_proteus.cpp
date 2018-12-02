@@ -1,20 +1,18 @@
 /* 
 
-    NOTE - EVERYTHING I'M DOING HERE
-    IS PURE C++. THIS WONT WORK WITH
-    THE PROTEUS. THIS IS BASICALLY
-    A CONSOLE VERSION OF THE PROTEUS
-    PROGRAM. 
+    This is the version of the code that works
+    with the proteus. Odds are, this will lag
+    behind the other cpp file most of the time, 
+    because it's easier to write the other file
+    whenever you don't have access to a proteus.
 
 */
 
 // Including requisite libraries 
 // These are just commented out b/c this is a pure c++ version 
-/* 
 #include <FEHLCD.h>
 #include <FEHIO.h>
 #include <FEHUtility.h>
-*/
 
 #include <iostream>
 
