@@ -154,6 +154,10 @@ int gamesPlayed, gamesWon, deaths, monstersDefeated;
 
 int main(void)
 {
+    // Clears Console Window
+    system("cls"); // Windows
+    system("clear"); // Linux
+
     bool exitVar = false;
     int userInput;
 
@@ -170,7 +174,7 @@ int main(void)
         cin >> userInput;
 
         // Spacing
-        cout << endl << endl;
+        cout << endl;
 
         switch (userInput)
         {
