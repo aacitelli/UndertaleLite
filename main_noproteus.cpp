@@ -8,31 +8,7 @@
 
 */
 
-// Including requisite libraries 
-// These are just commented out b/c this is a pure c++ version 
-/* 
-#include <FEHLCD.h>
-#include <FEHIO.h>
-#include <FEHUtility.h>
-*/
-
 #include <iostream>
-
-// Imports for the console version
-// Todo - Remove these when porting to proteus 
-
-// Defining Constants 
-// These ones just cut down on code we have to write 
-#define BLACK FEHLCD::Black
-#define WHITE FEHLCD::White
-
-// Function Prototypes
-// Commented out b/c pur c++
-//void drawMenu(FEHIcon::Icon *buttons, char labels[][20]);
-//void playGame(Player* player, Enemy* enemy);
-void displayRules();
-void displayCredits();
-void displayStats();
 
 // The player class - What the user plays as 
 class Player
@@ -147,24 +123,24 @@ class MrClingan : Enemy
     
 };
 
+/* Function Protypes */
+
+// Must be declared after class declarations
+void playGame(Player* player, Enemy* enemy); 
+void displayRules();
+void displayCredits();
+void displayStats();
+
 // Game statistics, displayed when the user hits "STATS" on the main menu
 // Todo - Figure out if we need any more statistics 
 int gamesPlayed, gamesWon, deaths, monstersDefeated; 
 
 int main(void)
 {
-    /*Clear screen, and set screen for writing*/
-    //LCD.Clear(BLACK);
-    //LCD.SetFontColor(WHITE);
-
     // Defining Intro Screen Variables 
     int touchCount;
     float x,y;
     bool run = true, press = true;
-
-    // Declaring Icon Array
-    //FEHIcon::Icon menu[4];
-
     // Defining Menu Text Labels
     char menu_labels[4][20] = {"START","RULES","CREDITS","STATS"};
 
@@ -178,68 +154,7 @@ int main(void)
         cout << "(3) Display Rules" << endl;
         cout << "(4) Display Credits" << endl;
     }
-
-    /* Commented out b/c of pure c++
-    // Draws the menu screen 
-    while (run)
-    {
-        drawMenu(menu, menu_labels);
-
-        if(LCD.Touch(&x,&y))
-        {
-            if(menu[0].Pressed(x,y,0))
-            {
-                menu[1].WhilePressed(x,y);
-                LCD.Clear(BLACK);
-                LCD.WriteLine("PLAYING");
-
-                // Calls the game method 
-                playGame();
-            }
-
-            if(menu[1].Pressed(x,y,0))
-            {
-                menu[1].WhilePressed(x,y);
-                LCD.Clear(BLACK);
-                LCD.WriteLine("RULES");
-
-                // Calls the rules method 
-                displayRules();
-            }
-
-            if(menu[2].Pressed(x,y,0))
-            {
-                menu[2].WhilePressed(x,y);
-                LCD.Clear(BLACK);
-                LCD.WriteLine("CREDITS");
-
-                // Calls the credits method 
-                displayCredits();
-            }
-
-            if(menu[3].Pressed(x,y,0))
-            {
-                menu[3].WhilePressed(x,y);
-                LCD.Clear(BLACK);
-                LCD.WriteLine("STATS");
-
-                // Calls the stats method 
-                displayStats();
-            }
-        }
-    }
-    */
 }
-
-/*
-void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
-{
-    // draw the menu in a 2 by 2 array with top and bottom
-    // margins of 10 and left and right margins of 5
-    // with the menu labels, gold borders, and green text
-    FEHIcon::DrawIconArray(buttons, 2, 2, 10, 10, 5, 5, labels, GOLD, GREEN);
-}
-*/
 
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
@@ -266,9 +181,7 @@ void playGame()
     else 
     {
         cout << "You lost the battle." << endl;
-    }
-
-        
+    }        
 }
 
 // Called whenever the user initiates battle with a TA or proteus 
