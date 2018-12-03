@@ -17,7 +17,6 @@
 
 #include <iostream>
 #include <time.h> // Needed for randomization 
-#include <climits> // Needed for INT_MAX
 
 using namespace std;
 
@@ -167,12 +166,6 @@ int main(void)
     // Clears Console Window
     // Todo - Remove this on proteus version 
     system("cls"); // Windows
-
-    cout << "Test: " << genRandom0To1();
-    cout << "Test: " << genRandom0To1();
-    cout << "Test: " << genRandom0To1();
-    cout << "Test: " << genRandom0To1();
-    cout << "Test: " << genRandom0To1();
 
     // Seeding the random number generator w/ current time
     // Todo - Shift this to the proteus's time method
