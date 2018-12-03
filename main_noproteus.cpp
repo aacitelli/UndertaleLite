@@ -91,7 +91,12 @@ class Player
 
         void levelUp()
         {
-
+            currentHP += 10;
+            maxHP += 10;
+            strength += 5;
+            intellect += 5;
+            dexterity += 5;
+            charisma += 5;
         }
 
     private: 
