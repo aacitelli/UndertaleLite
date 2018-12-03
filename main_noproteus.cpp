@@ -376,6 +376,12 @@ int battle(Player *player, Enemy *enemy)
     // Loops until somebody dies or the user successfully ran from the battle 
     while (!canExitLoop && !userRan)
     {
+        // Clears the screen every time
+        system("cls");
+
+        // Displaying Health for both players
+        cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl;
+
         /* Player Action */
         cout << "Options: " << endl;
         cout << "(1) Attack - Weapon" << endl;
@@ -465,11 +471,30 @@ int battle(Player *player, Enemy *enemy)
         }
     }
 
+    /* Displaying result of the game to the user and returning the proper value */
+    if (enemy -> getCurrentHP() <= 0)
+    {
+        cout << "You won the battle." << endl;
+        return 0; // Return code for a win
+    }
+
+    else if (player -> getCurrentHP() <= 0)
+    {
+        cout << "You lost the battle. Reviving at last savepoint." << endl;
+        return 1;
+    }
+
     // Computing the result of the battle
-    if (userRan)
+    else if (userRan)
     {
         cout << "You ran from battle successfully." << endl;
+        return 2; // Return code for when you run 
+    }
 
+    else
+    {
+        cout << "Battle function exited when it shouldn't have, seeing as both player and enemy have >= 0 health." << endl;
+        return 3; // Error code 
     }
 }
 
