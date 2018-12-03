@@ -23,6 +23,8 @@
     For example, using "MrClingan enemy" and then finding its health gives a value of several million. There is some code
     in the game exhibiting this. 
 
+    When you fail a run check, the window clears immediately, or in a manner that doesn't look very good. 
+
 */
 
 #include <iostream>
@@ -120,7 +122,7 @@ class Enemy
     private: 
 
         // Defining a max hp lets us add enemy heals more easily (the proteus can repair itself or smth)
-        int currentHP = 1000, maxHP = 1000, strength = 5; 
+        int currentHP, maxHP, strength = 5; 
     
 };
 
@@ -248,18 +250,12 @@ int main(void)
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
-    cout << "Entered play game function." << endl;
-
     // Flag is used for loop control a TON 
     bool quit = false, flag = false;
     int savePoint = 0, battleResult, userInput; 
 
-    cout << "Declared variables." << endl;
-
     // Initializing the player
     Player player;
-
-    cout << "Initialized player object." << endl;
 
     while (!quit)
     {
@@ -279,10 +275,6 @@ void playGame()
 
                 // Test battle to make sure the program reacts as expected
                 MrClingan testEnemy;
-
-                cout << "Enemy health: " << testEnemy.getCurrentHP() << endl;
-
-                cout << "Initialized Mr. Clingan object." << endl;
 
                 /* This whole structure could probably be simplified using goto statements but those are not good
                     practice in most situations apparently so f*ck that I guess */
