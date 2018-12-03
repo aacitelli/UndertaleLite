@@ -89,6 +89,15 @@ class Player
             spCharisma = charisma;
         }
 
+        void restoreSavePointValues()
+        {
+            maxHP = spMaxHP;
+            strength = spStrength;
+            intellect = spIntellect;
+            dexterity = spDexterity;
+            charisma = spCharisma;
+        }
+
         void levelUp()
         {
             currentHP += 10;
@@ -98,6 +107,8 @@ class Player
             dexterity += 5;
             charisma += 5;
         }
+
+        
 
     private: 
 
@@ -291,7 +302,7 @@ int main(void)
 void playGame()
 {
     // Flag is used for loop control a TON 
-    bool quit = false, flag = false;
+    bool quit = false, flag = false, justDied = false;
     int savePoint = 0, battleResult, userInput; 
 
     // Initializing the player
@@ -321,6 +332,12 @@ void playGame()
                 // Doesn't escape this loop until the user wins the battle
                 while (!flag)
                 {
+                    if (justDied)
+                    {
+                        player.restoreSavePointValues(); // Sets the values to what they were at the last save point 
+                        justDied = false;
+                    }
+
                     cout << "Your Choices: " << endl;
                     cout << "(1) Fight Enemy" << endl;
                     cout << "(2) Heal to Full" << endl;
@@ -345,10 +362,22 @@ void playGame()
                                 }
 
                                 // Otherwise, the user chooses b/w fighting enemy and healing to full or smth
-                                case 1: case 2:
+                                case 1:
+                                {
+                                    justDied = true;
+                                    break;
+                                }      
+
+                                case 2:
                                 {
                                     break;
-                                }                           
+                                }       
+
+                                case 3:
+                                {
+                                    cout << "Battle returned an error. AKA smth screwed up." << endl;
+                                    break;
+                                }              
                             }
 
                             break;
@@ -513,6 +542,7 @@ int battle(Player *player, Enemy *enemy)
     if (enemy -> getCurrentHP() <= 0)
     {
         cout << "You won the battle." << endl;
+        player -> levelUp(); // Level up once per battle 
         return 0; // Return code for a win
     }
 
