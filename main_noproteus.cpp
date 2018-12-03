@@ -79,7 +79,17 @@ class Player
             maxHP = hp;
         }   
 
+        // Essentially backs up the values so that they can be restored to upon death 
         void setSavePointValues()
+        {
+            spMaxHP = maxHP;
+            spStrength = strength;
+            spIntellect = intellect;
+            spDexterity = dexterity;
+            spCharisma = charisma;
+        }
+
+        void levelUp()
         {
 
         }
@@ -90,7 +100,7 @@ class Player
         int currentHP = 100, maxHP = 100, strength = 10, intellect = 10, dexterity = 10, charisma = 50;    
         
         // Save point values
-        int spHP = 100, spStrength = 10, spIntellect = 10, spDexterity = 10, spCharisma = 10;
+        int spMaxHP = 100, spStrength = 10, spIntellect = 10, spDexterity = 10, spCharisma = 10;
 };
 
 // Enemy class
@@ -560,4 +570,6 @@ void displayStats()
     // Spacing 
     cout << endl;
 }
+
+
 
