@@ -14,7 +14,6 @@
 
 using namespace std;
 
-
 // Game Statistics 
 int gamesPlayed, gamesWon, monstersDefeated, deaths, highestLevel;
 
@@ -25,6 +24,7 @@ class Player
 
         /* There is zero chance that what I'm about to do is best practice, but here we go nonetheless */ 
 
+        /* Retrieval Methods */
         int getCurrentHP()
         {
             return currentHP; 
@@ -45,16 +45,7 @@ class Player
             return intellect;
         }  
 
-        int setStrength(int parameter)
-        {
-            strength = parameter;
-        }  
-
-        int setIntellect(int parameter)
-        {
-            intellect = parameter;
-        }
-
+        /* Assignment Methods */
         void setCurrentHP(int hp)
         {
             currentHP = hp;
@@ -65,7 +56,19 @@ class Player
             maxHP = hp;
         }   
 
-        // Essentially backs up the values so that they can be restored to upon death 
+        int setStrength(int parameter)
+        {
+            strength = parameter;
+        }  
+
+        int setIntellect(int parameter)
+        {
+            intellect = parameter;
+        }
+
+        /* Save Point Methods */       
+
+        // Backs up values so they can be restored to upon death 
         void setSavePointValues()
         {
             spMaxHP = maxHP;
@@ -98,7 +101,7 @@ class Player
     private: 
 
         // Base values - These can range from 0 to 100 theoretically 
-        int currentHP = 300, maxHP = 300, strength = 20, intellect = 10;
+        int currentHP = 300, maxHP = 300, strength = 10, intellect = 10;
         int currentLevel = 1;    
         
         // Save point values
@@ -109,6 +112,8 @@ class Player
 class Enemy
 {
     public: 
+
+        /* Retrieval Functions */
 
         int getCurrentHP()
         {
@@ -126,6 +131,8 @@ class Enemy
             return strength;
         }
 
+        /* Assignment Functions */
+
         void setCurrentHP(int hp)
         {
             currentHP = hp;
@@ -134,7 +141,7 @@ class Enemy
         void setMaxHP(int hp)
         {
             maxHP = hp;
-        }        
+        }                
 
     private: 
 
@@ -197,22 +204,16 @@ MrClingan::MrClingan()
     setMaxHP(500);
 }
 
-/* Function Protypes */
-
-// Must be declared after class declarations
+/* Function Protypes - Must be declared after class declarations */
 bool playGame(); 
 int battle(Player* player, Enemy* enemy);
 void displayRules();
 void displayCredits();
 void displayStats();
 
-
 int main(void)
 {
-    // Todo - Convert to proteus 
     system("cls"); // Clearing window 
-
-    // Todo - Make it so that it clears the window every time for all aspects of the game and doesn't look bad 
 
     // Seeding the random number generator w/ current time
     // Todo - Shift this to the proteus's time method
