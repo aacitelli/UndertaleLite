@@ -16,6 +16,8 @@
 */
 
 #include <iostream>
+#include <time.h> // Needed for randomization 
+#include <climits> // Needed for INT_MAX
 
 using namespace std;
 
@@ -165,6 +167,16 @@ int main(void)
     // Clears Console Window
     // Todo - Remove this on proteus version 
     system("cls"); // Windows
+
+    cout << "Test: " << genRandom0To1();
+    cout << "Test: " << genRandom0To1();
+    cout << "Test: " << genRandom0To1();
+    cout << "Test: " << genRandom0To1();
+    cout << "Test: " << genRandom0To1();
+
+    // Seeding the random number generator w/ current time
+    // Todo - Shift this to the proteus's time method
+    srand(time(0));
 
     bool exitVar = false;
     int userInput;
@@ -332,10 +344,6 @@ void playGame()
             // Adieu
         }
     }
-
-
-    
-
 }
 
 /* \
@@ -363,7 +371,7 @@ int battle(Player *player, Enemy *enemy)
         cout << "Options: " << endl;
         cout << "(1) Attack - Weapon" << endl;
         cout << "(2) Attack - Code Injection" << endl;
-        cout << "(3) Attempt to Flee" << endl;
+        cout << "(3) Attempt to Flee (60\% Chance of Success)" << endl;
         cout << "Your Choice: "; 
 
         cin >> userChoice;
@@ -404,8 +412,8 @@ int battle(Player *player, Enemy *enemy)
             case 3:
             {
                 // Determining if the player successfully fled 
-                // This is set to zero for debug purposes
-                if (player -> getDexterity() > 0)
+                // Starts at a success chance of 60% and increases by 1% per dexterity point 
+                if ((rand() % 100 + 1) + player -> getDexterity() >= 40)
                 {
                     cout << "You successfully ran from the monster." << endl;
                     userRan = true;
