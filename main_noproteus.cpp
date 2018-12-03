@@ -237,7 +237,7 @@ int main(void)
 void playGame()
 {
     // Flag is used for loop control a TON 
-    bool quit = false, flag = false, outerFlag = false;
+    bool quit = false, flag = false;
     int savePoint, battleResult, userInput; 
 
     // Initializing the player
