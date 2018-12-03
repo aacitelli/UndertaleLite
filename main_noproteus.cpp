@@ -19,7 +19,9 @@
 
     BUG LIST
 
-    Monster always does several million damage to the player. This is probably an integer overflow of some sort. 
+    Monster health is always an overflow value if it is declared as anything BUT a member of the base enemy class.
+    For example, using "MrClingan enemy" and then finding its health gives a value of several million. There is some code
+    in the game exhibiting this. 
 
 */
 
@@ -118,7 +120,7 @@ class Enemy
     private: 
 
         // Defining a max hp lets us add enemy heals more easily (the proteus can repair itself or smth)
-        int currentHP, maxHP, strength = 5; 
+        int currentHP = 1000, maxHP = 1000, strength = 5; 
     
 };
 
@@ -171,6 +173,8 @@ int gamesPlayed, gamesWon, deaths, monstersDefeated;
 
 int main(void)
 {
+    // Todo - Make it so that it clears the window every time for all aspects of the game and doesn't look bad 
+
     // Clears Console Window
     // Todo - Remove this on proteus version 
     system("cls"); // Windows
@@ -275,6 +279,8 @@ void playGame()
 
                 // Test battle to make sure the program reacts as expected
                 MrClingan testEnemy;
+
+                cout << "Enemy health: " << testEnemy.getCurrentHP() << endl;
 
                 cout << "Initialized Mr. Clingan object." << endl;
 
