@@ -145,7 +145,7 @@ class Enemy
 
     private: 
 
-        int strength = 10, currentHP, maxHP;
+        int strength = 20, currentHP, maxHP;
     
 };
 
@@ -224,6 +224,8 @@ int main(void)
     // Pure c++ replacement for below code
     while (!exitVar)
     {
+        cout << "Welcome to Undertale Lite!" << endl << endl;
+        cout << "Options: " << endl;
         cout << "(1) Play Game" << endl;
         cout << "(2) Display Stats" << endl;
         cout << "(3) Display Rules" << endl;
@@ -355,38 +357,42 @@ bool playGame()
 
                 flag = false;
 
-                switch (userInput)
+                while (!flag)
                 {
-                    case 1:
+                    switch (userInput)
                     {
-                        cout << "Tom W. Davis bestows his wisdom upon you." << endl;
-                        cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
+                        case 1:
+                        {
+                            cout << "Tom W. Davis bestows his wisdom upon you." << endl;
+                            cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
 
-                        player.setStrength(player.getStrength() + 5);
-                        player.setIntellect(player.getIntellect() + 5);
+                            player.setStrength(player.getStrength() + 5);
+                            player.setIntellect(player.getIntellect() + 5);
 
-                        player.setMaxHP(player.getMaxHP() + 10);
-                        player.setCurrentHP(player.getCurrentHP() + 10);
+                            player.setMaxHP(player.getMaxHP() + 10);
+                            player.setCurrentHP(player.getCurrentHP() + 10);
 
-                        flag = true;
-                        break;
-                    }
+                            flag = true;
+                            break;
+                        }
 
-                    case 2:
-                    {
-                        cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
-                        cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
+                        case 2:
+                        {
+                            cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
+                            cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
 
-                        flag = true;
-                        break;
-                    }
+                            flag = true;
+                            break;
+                        }
 
-                    default: 
-                    {
-                        cout << "Invalid selection. Please enter a valid input." << endl;
-                        break;
-                    }                       
-                } 
+                        default: 
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                            break;
+                        }                       
+                    }                     
+                }
+                
 
                 // Updating save point b/c the user completed this section 
                 if (!savePointAlreadySet)
@@ -1290,7 +1296,7 @@ bool playGame()
                     {
                         case 0:
                         {
-                            cout << "You defeated Clingan." << endl;
+                            cout << "You defeated Clingan. His reign is over." << endl;
                             flag = true;
                             break;
                         }
@@ -1335,6 +1341,9 @@ int battle(Player *player, Enemy *enemy)
     // Loops until somebody dies or the user successfully ran from the battle 
     while (!canExitLoop)
     {
+        // Resets the screen so everything can be redrawn at the top
+        system("cls");
+
         // Displaying Health for both players
         cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl;
 
@@ -1409,6 +1418,8 @@ int battle(Player *player, Enemy *enemy)
             break; // You're dead, don't need to continue the battle any more
         }
     }
+
+    system("cls");
 
     /* Displaying result of the game to the user and returning the proper value */
     if (enemy -> getCurrentHP() <= 0)
