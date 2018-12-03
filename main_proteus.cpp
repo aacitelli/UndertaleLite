@@ -73,7 +73,7 @@ int main(void)
 
             if(menu[3].Pressed(x,y,0))
             {
-                menu[3].WhilePressed(x,y);
+                menu[3].WhilePressed(x,y); 
                 LCD.Clear(BLACK);
                 LCD.WriteLine("STATS");
 

@@ -65,17 +65,17 @@ class Player
         int getIntellect()
         {
             return intellect;
-        }
+        }  
 
-        int getDexterity()
+        int setStrength(int parameter)
         {
-            return dexterity;
-        }
+            strength = parameter;
+        }  
 
-        int getCharisma()
+        int setIntellect(int parameter)
         {
-            return charisma;
-        }     
+            intellect = parameter;
+        }
 
         void setCurrentHP(int hp)
         {
@@ -93,8 +93,6 @@ class Player
             spMaxHP = maxHP;
             spStrength = strength;
             spIntellect = intellect;
-            spDexterity = dexterity;
-            spCharisma = charisma;
         }
 
         void restoreSavePointValues()
@@ -102,8 +100,6 @@ class Player
             maxHP = spMaxHP;
             strength = spStrength;
             intellect = spIntellect;
-            dexterity = spDexterity;
-            charisma = spCharisma;
         }
 
         void levelUp()
@@ -112,19 +108,15 @@ class Player
             maxHP += 10;
             strength += 5;
             intellect += 5;
-            dexterity += 5;
-            charisma += 5;
-        }
-
-        
+        }        
 
     private: 
 
         // Base values - These can range from 0 to 100 theoretically 
-        int currentHP = 100, maxHP = 100, strength = 10, intellect = 10, dexterity = 10, charisma = 50;    
+        int currentHP = 100, maxHP = 100, strength = 10, intellect = 10;    
         
         // Save point values
-        int spMaxHP = 100, spStrength = 10, spIntellect = 10, spDexterity = 10, spCharisma = 10;
+        int spMaxHP = 100, spStrength = 10, spIntellect = 10;
 };
 
 // Enemy class
@@ -236,10 +228,6 @@ int main(void)
 {
     // Todo - Make it so that it clears the window every time for all aspects of the game and doesn't look bad 
 
-    // Clears Console Window
-    // Todo - Remove this on proteus version 
-    system("cls"); // Windows
-
     // Seeding the random number generator w/ current time
     // Todo - Shift this to the proteus's time method
     srand(time(0));
@@ -325,79 +313,30 @@ void playGame()
                 THEN break. */ 
 
 
-            // Start of the game 
+            // Start TO Entrance to Hitchcock 
             case 0:
             {
                 // No need to initialize save point values b/c that's done in the constructor b/c this is the game start
 
-                // Rest of the code here 
+                // Rest of the code herecout << "Tonight was the night that it would all change." << endl;
 
-                // Test battle to make sure the program reacts as expected
-                MrClingan testEnemy;
+                // Todo - Put a pause here 
 
-                /* This whole structure could probably be simplified using goto statements but those are not good
-                    practice in most situations apparently so f*ck that I guess */
-                // Doesn't escape this loop until the user wins the battle
-                while (!flag)
-                {
-                    if (justDied)
-                    {
-                        player.restoreSavePointValues(); // Sets the values to what they were at the last save point 
-                        justDied = false;
-                    }
+                cout << "It all started that fateful night, many years ago. The FEH program had "; 
+                cout << "Existed peacefully, as it had for years, serving as a haven for exploration ";
+                cout << "and learning." << endl;
 
-                    cout << "Your Choices: " << endl;
-                    cout << "(1) Fight Enemy" << endl;
-                    cout << "(2) Heal to Full" << endl;
+                // Todo - Put a pause here 
 
-                    cin >> userInput;
+                cout << "And then that peace had been torn to shreds by Clingan and his conspirators that ";
+                cout << "fateful day. Clingan and his teaching staff had risen up, and now held control of ";
+                cout << "The FEH program. They had stormed Hitchcock at night, and held the rest of the ";
+                cout << "Teaching staff captive." << endl;
 
-                    // I am actually insane
-                    // This isn't actually super complicated, it just looks like that 
-                    switch(userInput)
-                    {
-                        case 1:
-                        {
-                            battleResult = battle(&player, &testEnemy);
+                // Todo - Put the pause here 
 
-                            switch (battleResult)
-                            {
-                                case 0:
-                                {
-                                    // Only this one lets you out of the full loop
-                                    flag = true;
-                                    break;
-                                }
-
-                                // Otherwise, the user chooses b/w fighting enemy and healing to full or smth
-                                case 1:
-                                {
-                                    justDied = true;
-                                    break;
-                                }      
-
-                                case 2:
-                                {
-                                    break;
-                                }       
-
-                                case 3:
-                                {
-                                    cout << "Battle returned an error. AKA smth screwed up." << endl;
-                                    break;
-                                }              
-                            }
-
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            player.setCurrentHP(player.getMaxHP());
-                            break;
-                        }
-                    }                                   
-                }                
+                cout << "Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take ";
+                cout << "back Hitchcock." << endl << endl; // Double spacing b/c it's expository
 
                 // Updating Save Point b/c the user completed this section 
                 savePoint = 1;
@@ -409,6 +348,48 @@ void playGame()
                 // Updates save point values at the beginning of every save point so that it can be easily reset 
                 player.setSavePointValues();
 
+                cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl; 
+                cout << "(1) Yes" << endl;
+                cout << "(2) No" << endl;
+                cout << "Your Choice: ";
+
+                cin >> userInput;
+
+                flag = false;
+
+                switch (userInput)
+                {
+                    case 1:
+                    {
+                        cout << "Tom W. Davis bestows his wisdom upon you." << endl;
+                        cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
+
+                        player.setStrength(player.getStrength() + 5);
+                        player.setIntellect(player.getIntellect() + 5);
+
+                        player.setMaxHP(player.getMaxHP() + 10);
+                        player.setCurrentHP(player.getCurrentHP() + 10);
+
+                        flag = true;
+                        break;
+                    }
+
+                    case 2:
+                    {
+                        cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
+                        cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
+
+                        flag = true;
+                        break;
+                    }
+
+                    default: 
+                    {
+                        cout << "Invalid selection. Please enter a valid input." << endl;
+                        break;
+                    }                       
+                } 
+
                 // Updating save point b/c the user completed this section 
                 savePoint = 2;
                 break;
@@ -419,15 +400,88 @@ void playGame()
                 player.setSavePointValues();
 
                 // Rest of the code here 
+                cout << "You stop for a bite to eat right before the righteous crusade." << endl;
+
+                cout << "Which station at Scott do you stop?" << endl;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    cout << "Options: " << endl;
+                    cout << "(1) Mongolian (Strength Up)" << endl;
+                    cout << "(2) Breakfast Station (Intellect Up)" << endl;
+                    cout << "Your choice: ";
+
+                    cin >> userInput;                   
+                    
+                    switch (userInput)
+                    {
+                        case 1: 
+                        {
+                            cout << "Waiting for Wok...." << endl;
+
+                            // Todo - Insert 5 second wait time 
+                            cout << "You had a hearty Mongolian meal. Strength increased by 5." << endl;
+                            
+                            player.setStrength(player.getStrength() + 5);
+                            flag = true;
+                            break;                        
+                        }
+
+                        case 2:
+                        {
+                            cout << "You had a hearty breakfast. Intellect increased by 5." << endl;
+                            player.setIntellect(player.getIntellect() + 5);
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                            break;
+                        }
+                    }
+                }                
 
                 // Updating save point b/c the user completed this section 
                 savePoint = 3;
                 break;
             }
 
+            // Proteus bot 1 
+            case 3:
+            {
+                player.setSavePointValues();
+
+                // Insert code here
+                cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                flag = false;
+                
+                savePoint = 4;
+                break;
+            }
+
+            // This is just a prohibitively 
+            case 10:
+            {
+
+            }
+        
+
             // Adieu
         }
     }
+}
+
+void runProteusFight()
+{
+
 }
 
 /* \
@@ -439,21 +493,17 @@ void playGame()
     Return Codes Key:
     0 = Player Won 
     1 = Player Lost
-    2 = Player Successfully Ran 
 
 */
 int battle(Player *player, Enemy *enemy)
 {
     // This variable gets changed whenever a condition to exit gets tripped 
-    bool canExitLoop = false, userRan = false;
+    bool canExitLoop = false;
     int userChoice, damage; 
 
     // Loops until somebody dies or the user successfully ran from the battle 
-    while (!canExitLoop && !userRan)
+    while (!canExitLoop)
     {
-        // Clears the screen every time
-        system("cls");
-
         // Displaying Health for both players
         cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl;
 
@@ -461,7 +511,6 @@ int battle(Player *player, Enemy *enemy)
         cout << "Options: " << endl;
         cout << "(1) Attack - Weapon" << endl;
         cout << "(2) Attack - Code Injection" << endl;
-        cout << "(3) Attempt to Flee (60\% Chance of Success)" << endl;
         cout << "Your Choice: "; 
 
         cin >> userChoice;
@@ -472,7 +521,7 @@ int battle(Player *player, Enemy *enemy)
             case 1:
             {
                 // Determining damage based on player strength 
-                damage = player -> getStrength();
+                damage = (rand() % 10 + 1) * player -> getStrength() / 5;
 
                 // Actually subtracting that from the monster 
                 enemy -> setCurrentHP(enemy -> getCurrentHP() - damage); 
@@ -487,7 +536,7 @@ int battle(Player *player, Enemy *enemy)
             case 2:
             {
                 // Determining damage based on player intellect
-                damage = player -> getIntellect();
+                damage = (rand() % 10 + 1) * player -> getIntellect() / 5;
 
                 // Actually subtracting that from the monster 
                 enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);
@@ -497,26 +546,8 @@ int battle(Player *player, Enemy *enemy)
                 // Breaking out of switch statement
                 break;
             }
-
-            // Flee 
-            case 3:
-            {
-                // Determining if the player successfully fled 
-                // Starts at a success chance of 60% and increases by 1% per dexterity point 
-                if ((rand() % 100 + 1) + player -> getDexterity() >= 40)
-                {
-                    cout << "You successfully ran from the monster." << endl;
-                    userRan = true;
-                }
-
-                else
-                {
-                    cout << "Your attempt to escape failed." << endl;
-                }
-
-                // Breaking out of switch statement
-                break;
-            }
+            
+            // Todo - Error checking 
         }
 
         // Checking if the monster is dead 
@@ -529,10 +560,10 @@ int battle(Player *player, Enemy *enemy)
         /* Monster Action */
 
         // Have to make sure the monster isn't dead or the player ran, in which case battle is over and these calculations don't need to happen 
-        if (!canExitLoop && !userRan)
+        if (!canExitLoop)
         {
             // Same procedure as above, except w/o the choice and switch statement 
-            damage = enemy -> getStrength();
+            damage = (rand() % 10 + 1) * enemy -> getStrength() / 12;
             player -> setCurrentHP(player -> getCurrentHP() - damage);
 
             cout << "The monster did " << damage << " damage to you." << endl;
@@ -558,13 +589,6 @@ int battle(Player *player, Enemy *enemy)
     {
         cout << "You lost the battle. Reviving at last savepoint." << endl;
         return 1;
-    }
-
-    // Computing the result of the battle
-    else if (userRan)
-    {
-        cout << "You ran from battle successfully." << endl;
-        return 2; // Return code for when you run 
     }
 
     else
