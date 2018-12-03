@@ -216,7 +216,6 @@ int main(void)
     system("cls"); // Clearing window 
 
     // Seeding the random number generator w/ current time
-    // Todo - Shift this to the proteus's time method
     srand(time(0));
 
     bool exitVar = false;
@@ -308,22 +307,16 @@ bool playGame()
                 savePointAlreadySet = false;
                 // No need to initialize save point values b/c that's done in the constructor b/c this is the game start
 
-                // Rest of the code herecout << "Tonight was the night that it would all change." << endl;
-
-                // Todo - Put a pause here 
+                cout << "Tonight was the night that it would all change." << endl;
 
                 cout << "It all started that fateful night, many years ago. The FEH program had "; 
                 cout << "Existed peacefully, as it had for years, serving as a haven for exploration ";
                 cout << "and learning." << endl;
 
-                // Todo - Put a pause here 
-
                 cout << "And then that peace had been torn to shreds by Clingan and his conspirators that ";
                 cout << "fateful day. Clingan and his teaching staff had risen up, and now held control of ";
                 cout << "The FEH program. They had stormed Hitchcock at night, and held the rest of the ";
                 cout << "Teaching staff captive." << endl;
-
-                // Todo - Put the pause here 
 
                 cout << "Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take ";
                 cout << "back Hitchcock." << endl << endl; // Double spacing b/c it's expository
@@ -339,8 +332,18 @@ bool playGame()
 
             case 1:
             {
-                // Updates save point values at the beginning of every save point so that it can be easily reset 
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl; 
@@ -396,7 +399,18 @@ bool playGame()
 
             case 2: 
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 // Rest of the code here 
@@ -457,14 +471,25 @@ bool playGame()
             // Proteus bot 1 
             case 3:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 // Insert code here
                 cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
 
                 cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+                cout << "Waiting for you on the ground floor. You are forced into a fight." << endl << endl;
 
                 while (!flag)
                 {
@@ -487,6 +512,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -539,7 +565,18 @@ bool playGame()
             // Proteus bot 1 
             case 4:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 flag = false;
@@ -571,6 +608,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -623,7 +661,18 @@ bool playGame()
             // Proteus bot 1 
             case 5:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+                
                 savePointAlreadySet = false;
 
                 flag = false;
@@ -655,6 +704,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -707,7 +757,18 @@ bool playGame()
             // Proteus bot 1 
             case 6:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 flag = false;
@@ -739,6 +800,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -791,7 +853,18 @@ bool playGame()
             // Proteus bot 1 
             case 7:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 flag = false;
@@ -823,6 +896,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -875,7 +949,18 @@ bool playGame()
             // Proteus bot 1 
             case 8:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 flag = false;
@@ -907,6 +992,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -959,7 +1045,18 @@ bool playGame()
             // Proteus bot 1 
             case 9:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 flag = false;
@@ -991,6 +1088,7 @@ bool playGame()
                             case 1:
                             {
                                 cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                justDied = true;
                                 break;
                             }
                         }
@@ -1006,10 +1104,22 @@ bool playGame()
             // Jane fight 
             case 10:
             {
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 cout << "Running up the stairs, you enter the second floor hallway, only to be confronted with Clingan's TA's, all conveniently spaced down the hall so that";
                 cout << "you don't have to fight more than one at a time." << endl;
 
-                cout << "Jane approaches you. The fight begins." << endl;                
+                cout << "Jane approaches you and insults your Results & Description. Enranged, you attack." << endl;                
                 
                 flag = false;
 
@@ -1030,6 +1140,7 @@ bool playGame()
                         case 1:
                         {
                             cout << "Jane defeated you. Reviving from last savepoint." << endl;
+                            justDied = true;
                             break;
                         }
                     }
@@ -1042,7 +1153,18 @@ bool playGame()
             // Aidan fight 
             case 11:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 cout << "Aidan approaches you. The fight begins." << endl;
@@ -1066,6 +1188,7 @@ bool playGame()
                         case 1:
                         {
                             cout << "Aidan defeated you. Reviving from last savepoint." << endl;
+                            justDied = true;
                             break;
                         }
                     }
@@ -1078,7 +1201,18 @@ bool playGame()
             // Erma Fight
             case 12:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 cout << "Erma approaches you. The fight begins." << endl;
@@ -1102,6 +1236,7 @@ bool playGame()
                         case 1:
                         {
                             cout << "Erma defeated you. Reviving from last savepoint." << endl;
+                            justDied = true;
                             break;
                         }
                     }
@@ -1115,7 +1250,18 @@ bool playGame()
             // Barley Fight 
             case 13:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;
 
                 cout << "Barley approaches you. The fight begins." << endl;
@@ -1139,6 +1285,7 @@ bool playGame()
                         case 1:
                         {
                             cout << "Barley defeated you. Reviving from last savepoint." << endl;
+                            justDied = true;
                             break;
                         }
                     }
@@ -1151,7 +1298,18 @@ bool playGame()
             // Clingan Fight 
             case 14:
             {
-                player.setSavePointValues();
+                // If they just died, reset to the previous savestate's values 
+                if (justDied)
+                {
+                    player.restoreSavePointValues();
+                    justDied = false;
+                }
+
+                else
+                {
+                    player.setSavePointValues();
+                }
+
                 savePointAlreadySet = false;                
 
                 cout << "You finally approach Mr. Clingan, deep in his headquarters in B216." << endl;
@@ -1176,6 +1334,7 @@ bool playGame()
                         case 1:
                         {
                             cout << "Clingan defeated you. Reviving from last savepoint." << endl;
+                            justDied = true;
                             break;
                         }
                     }
