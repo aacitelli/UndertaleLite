@@ -280,15 +280,14 @@ void playGame()
                             {
                                 case 0:
                                 {
+                                    // Only this one lets you out of the full loop
                                     flag = true;
-                                    outerFlag = true;
                                     break;
                                 }
 
-                                // In both of these cases, you are returned to the outside loop
+                                // Otherwise, the user chooses b/w fighting enemy and healing to full or smth
                                 case 1: case 2:
                                 {
-                                    flag = true;
                                     break;
                                 }                           
                             }
