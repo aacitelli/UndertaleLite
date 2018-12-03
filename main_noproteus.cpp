@@ -118,7 +118,7 @@ class Enemy
     private: 
 
         // Defining a max hp lets us add enemy heals more easily (the proteus can repair itself or smth)
-        int currentHP, maxHP, strength; 
+        int currentHP, maxHP, strength = 5; 
     
 };
 
@@ -442,6 +442,7 @@ int battle(Player *player, Enemy *enemy)
         if (enemy -> getCurrentHP() <= 0)
         {
             canExitLoop = true;
+            break; // Monster's dead, don't need to continue the battle any more 
         }
 
         /* Monster Action */
@@ -460,13 +461,14 @@ int battle(Player *player, Enemy *enemy)
         if (player -> getCurrentHP() <= 0)
         {
             canExitLoop = true;
+            break; // You're dead, don't need to continue the battle any more
         }
     }
 
     // Computing the result of the battle
     if (userRan)
     {
-        cout << "You ran successfully." << endl;
+        cout << "You ran from battle successfully." << endl;
 
     }
 }
