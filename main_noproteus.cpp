@@ -14,6 +14,10 @@
 
 using namespace std;
 
+
+// Game Statistics 
+int gamesPlayed, gamesWon, monstersDefeated, deaths, highestLevel;
+
 // The player class - What the user plays as 
 class Player
 {
@@ -83,12 +87,19 @@ class Player
             maxHP += 10;
             strength += 5;
             intellect += 5;
+            currentLevel++;
+
+            if (currentLevel > highestLevel)
+            {
+                highestLevel = currentLevel;
+            }
         }        
 
     private: 
 
         // Base values - These can range from 0 to 100 theoretically 
-        int currentHP = 300, maxHP = 300, strength = 20, intellect = 10;    
+        int currentHP = 300, maxHP = 300, strength = 20, intellect = 10;
+        int currentLevel = 1;    
         
         // Save point values
         int spMaxHP = 300, spStrength = 10, spIntellect = 10;
@@ -195,9 +206,6 @@ void displayRules();
 void displayCredits();
 void displayStats();
 
-// Game statistics, displayed when the user hits "STATS" on the main menu
-// Todo - Figure out if we need any more statistics 
-int gamesPlayed, gamesWon, deaths, monstersDefeated; 
 
 int main(void)
 {
@@ -275,6 +283,8 @@ int main(void)
 // Majority of the code - Run whevever the player hits "play game" 
 bool playGame()
 {
+    gamesPlayed++;
+
     // Flag is used for loop control a TON 
     bool quit = false, flag = false, justDied = false, savePointAlreadySet;
     int savePoint = 0, battleResult, userInput; 
@@ -1171,6 +1181,7 @@ bool playGame()
                 }      
 
                 // Indicates that it's a win 
+                gamesWon++;
                 return true;        
             }
         }
@@ -1250,6 +1261,7 @@ int battle(Player *player, Enemy *enemy)
         if (enemy -> getCurrentHP() <= 0)
         {
             canExitLoop = true;
+            monstersDefeated++;
             break; // Monster's dead, don't need to continue the battle any more 
         }
 
@@ -1269,6 +1281,7 @@ int battle(Player *player, Enemy *enemy)
         if (player -> getCurrentHP() <= 0)
         {
             canExitLoop = true;
+            deaths++;
             break; // You're dead, don't need to continue the battle any more
         }
     }
@@ -1329,6 +1342,7 @@ void displayStats()
     cout << "Games Won: " << gamesWon << endl;
     cout << "Monsters Defeated: " << monstersDefeated << endl;
     cout << "Deaths: " << deaths << endl;
+    cout << "Highest Level: " << highestLevel << endl;
 
     // Spacing 
     cout << endl;
