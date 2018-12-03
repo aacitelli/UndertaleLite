@@ -119,10 +119,14 @@ class Enemy
             currentHP = hp;
         }
 
+        void setMaxHP(int hp)
+        {
+            maxHP = hp;
+        }        
+
     private: 
 
-        // Defining a max hp lets us add enemy heals more easily (the proteus can repair itself or smth)
-        int currentHP, maxHP, strength = 5; 
+        int strength = 5, currentHP, maxHP;
     
 };
 
@@ -131,11 +135,10 @@ class ProteusBot : public Enemy
 {
     public: 
 
-    private: 
+        // Declaring the constructor
+        ProteusBot();
 
-        // This is one of the only values that changes across enemy
-        int currentHP = 100, maxHP = 100;
-    
+    private:   
 };
 
 // TA class
@@ -143,10 +146,10 @@ class TA : public Enemy
 {
     public: 
 
-    private: 
+        // Declaring the constructor
+        TA();
 
-        int currentHP = 200, maxHP = 200;
-    
+    private:     
 };
 
 // Clingan class 
@@ -154,11 +157,33 @@ class MrClingan : public Enemy
 {
     public: 
 
-    private: 
+        // Declaring the constructor 
+        MrClingan();
 
-        int currentHP = 500, maxHP = 500;
+    private: 
     
 };
+
+// Proteus bot constructor 
+ProteusBot::ProteusBot()
+{
+    setCurrentHP(100);
+    setMaxHP(100);
+}
+
+// TA constructor
+TA::TA()
+{
+    setCurrentHP(300);
+    setMaxHP(300);
+}
+
+// Mr Clingan's very own constructor
+MrClingan::MrClingan()
+{
+    setCurrentHP(500);
+    setMaxHP(500);
+}
 
 /* Function Protypes */
 
