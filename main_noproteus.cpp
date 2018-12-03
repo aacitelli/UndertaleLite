@@ -231,8 +231,9 @@ int main(void)
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
-    bool quit = false;
-    int savePoint; // Tracks where they are in the game 
+    // Flag is used for loop control a TON 
+    bool quit = false, flag = false, outerFlag = false;
+    int savePoint, battleResult, userInput; 
 
     // Initializing the player
     Player player;
@@ -254,6 +255,54 @@ void playGame()
                 // Rest of the code here 
 
                 // Test battle to make sure the program reacts as expected
+                MrClingan testEnemy;
+
+                /* This whole structure could probably be simplified using goto statements but those are not good
+                    practice in most situations apparently so f*ck that I guess */
+                // Doesn't escape this loop until the user wins the battle
+                while (!flag)
+                {
+                    cout << "Your Choices: " << endl;
+                    cout << "(1) Fight Enemy" << endl;
+                    cout << "(2) Heal to Full" << endl;
+
+                    cin >> userInput;
+
+                    // I am actually insane
+                    // This isn't actually super complicated, it just looks like that 
+                    switch(userInput)
+                    {
+                        case 1:
+                        {
+                            battleResult = battle(&player, &testEnemy);
+
+                            switch (battleResult)
+                            {
+                                case 0:
+                                {
+                                    flag = true;
+                                    outerFlag = true;
+                                    break;
+                                }
+
+                                // In both of these cases, you are returned to the outside loop
+                                case 1: case 2:
+                                {
+                                    flag = true;
+                                    break;
+                                }                           
+                            }
+
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            player.setCurrentHP(player.getMaxHP());
+                            break;
+                        }
+                    }                                   
+                }                
 
                 // Updating Save Point b/c the user completed this section 
                 savePoint = 1;
