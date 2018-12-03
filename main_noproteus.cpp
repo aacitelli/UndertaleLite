@@ -88,10 +88,10 @@ class Player
     private: 
 
         // Base values - These can range from 0 to 100 theoretically 
-        int currentHP = 100, maxHP = 100, strength = 10, intellect = 10;    
+        int currentHP = 300, maxHP = 300, strength = 20, intellect = 10;    
         
         // Save point values
-        int spMaxHP = 100, spStrength = 10, spIntellect = 10;
+        int spMaxHP = 300, spStrength = 10, spIntellect = 10;
 };
 
 // Enemy class
@@ -189,7 +189,7 @@ MrClingan::MrClingan()
 /* Function Protypes */
 
 // Must be declared after class declarations
-void playGame(); 
+bool playGame(); 
 int battle(Player* player, Enemy* enemy);
 void displayRules();
 void displayCredits();
@@ -273,7 +273,7 @@ int main(void)
 }
 
 // Majority of the code - Run whevever the player hits "play game" 
-void playGame()
+bool playGame()
 {
     // Flag is used for loop control a TON 
     bool quit = false, flag = false, justDied = false, savePointAlreadySet;
@@ -998,26 +998,25 @@ void playGame()
                 cout << "Running up the stairs, you enter the second floor hallway, only to be confronted with Clingan's TA's, all conveniently spaced down the hall so that";
                 cout << "you don't have to fight more than one at a time." << endl;
 
-                cout << "Jane approaches you. The fight begins." << endl;
-
-                TA enemy;
+                cout << "Jane approaches you. The fight begins." << endl;                
                 
                 flag = false;
 
                 while (!flag)
                 {
+                    TA enemy;
                     battleResult = battle(&player, &enemy);
 
                     switch (battleResult)
                     {
-                        case 1:
+                        case 0:
                         {
                             cout << "You defeated Jane." << endl;
                             flag = true;
                             break;
                         }
 
-                        case 2:
+                        case 1:
                         {
                             cout << "Jane defeated you. Reviving from last savepoint." << endl;
                             break;
@@ -1037,6 +1036,30 @@ void playGame()
 
                 cout << "Aidan approaches you. The fight begins." << endl;
 
+                flag = false;
+
+                while (!flag)
+                {
+                    TA enemy;
+                    battleResult = battle(&player, &enemy);
+
+                    switch (battleResult)
+                    {
+                        case 0:
+                        {
+                            cout << "You defeated Aidan." << endl;
+                            flag = true;
+                            break;
+                        }
+
+                        case 1:
+                        {
+                            cout << "Aidan defeated you. Reviving from last savepoint." << endl;
+                            break;
+                        }
+                    }
+                }
+
                 savePoint = 12;
                 break;
             }
@@ -1047,7 +1070,31 @@ void playGame()
                 player.setSavePointValues();
                 savePointAlreadySet = false;
 
-                cout << "Erma appraoches you. The fight begins." << endl;
+                cout << "Erma approaches you. The fight begins." << endl;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    TA enemy;
+                    battleResult = battle(&player, &enemy);
+
+                    switch (battleResult)
+                    {
+                        case 0:
+                        {
+                            cout << "You defeated Erma." << endl;
+                            flag = true;
+                            break;
+                        }
+
+                        case 1:
+                        {
+                            cout << "Erma defeated you. Reviving from last savepoint." << endl;
+                            break;
+                        }
+                    }
+                }
 
                 savePoint = 13;
                 break;
@@ -1062,6 +1109,30 @@ void playGame()
 
                 cout << "Barley approaches you. The fight begins." << endl;
 
+                flag = false;
+
+                while (!flag)
+                {
+                    TA enemy;
+                    battleResult = battle(&player, &enemy);
+
+                    switch (battleResult)
+                    {
+                        case 0:
+                        {
+                            cout << "You defeated Barley." << endl;
+                            flag = true;
+                            break;
+                        }
+
+                        case 1:
+                        {
+                            cout << "Barley defeated you. Reviving from last savepoint." << endl;
+                            break;
+                        }
+                    }
+                }
+
                 savePoint = 14;
                 break;
             }
@@ -1070,12 +1141,37 @@ void playGame()
             case 14:
             {
                 player.setSavePointValues();
-                savePointAlreadySet = false;
+                savePointAlreadySet = false;                
 
                 cout << "You finally approach Mr. Clingan, deep in his headquarters in B216." << endl;
-                cout << "You start the fight, motivated to finally put an end to the Clingan regime." << endl;
+                cout << "You start the fight, motivated to finally put an end to the Clingan regime." << endl;  
 
-                
+                flag = false;
+
+                while (!flag)
+                {
+                    TA enemy;
+                    battleResult = battle(&player, &enemy);
+
+                    switch (battleResult)
+                    {
+                        case 0:
+                        {
+                            cout << "You defeated Clingan." << endl;
+                            flag = true;
+                            break;
+                        }
+
+                        case 1:
+                        {
+                            cout << "Clingan defeated you. Reviving from last savepoint." << endl;
+                            break;
+                        }
+                    }
+                }      
+
+                // Indicates that it's a win 
+                return true;        
             }
         }
     }

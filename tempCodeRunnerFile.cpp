@@ -1,2 +1,3 @@
-;
-                cout << "(2) Skip" << endl;
+
+                        case 0:
+                        {
