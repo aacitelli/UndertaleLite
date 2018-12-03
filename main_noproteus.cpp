@@ -511,7 +511,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting Fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -583,12 +583,6 @@ bool playGame()
 
                 while (!flag)
                 {
-                    // Insert code here
-                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
-
                     flag = false;
 
                     while (!flag)
@@ -607,7 +601,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting Fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -679,12 +673,6 @@ bool playGame()
 
                 while (!flag)
                 {
-                    // Insert code here
-                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
-
                     flag = false;
 
                     while (!flag)
@@ -703,7 +691,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -775,12 +763,6 @@ bool playGame()
 
                 while (!flag)
                 {
-                    // Insert code here
-                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
-
                     flag = false;
 
                     while (!flag)
@@ -799,7 +781,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -871,12 +853,6 @@ bool playGame()
 
                 while (!flag)
                 {
-                    // Insert code here
-                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
-
                     flag = false;
 
                     while (!flag)
@@ -895,7 +871,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -967,12 +943,6 @@ bool playGame()
 
                 while (!flag)
                 {
-                    // Insert code here
-                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
-
                     flag = false;
 
                     while (!flag)
@@ -991,7 +961,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -1063,12 +1033,6 @@ bool playGame()
 
                 while (!flag)
                 {
-                    // Insert code here
-                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
-
                     flag = false;
 
                     while (!flag)
@@ -1087,7 +1051,7 @@ bool playGame()
 
                             case 1:
                             {
-                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
                                 break;
                             }
@@ -1139,7 +1103,7 @@ bool playGame()
 
                         case 1:
                         {
-                            cout << "Jane defeated you. Reviving from last savepoint." << endl;
+                            cout << "Jane defeated you. Restarting fight." << endl;
                             justDied = true;
                             break;
                         }
@@ -1187,7 +1151,7 @@ bool playGame()
 
                         case 1:
                         {
-                            cout << "Aidan defeated you. Reviving from last savepoint." << endl;
+                            cout << "Aidan defeated you. Restarting fight." << endl;
                             justDied = true;
                             break;
                         }
@@ -1235,7 +1199,7 @@ bool playGame()
 
                         case 1:
                         {
-                            cout << "Erma defeated you. Reviving from last savepoint." << endl;
+                            cout << "Erma defeated you. Restarting fight." << endl;
                             justDied = true;
                             break;
                         }
@@ -1284,7 +1248,7 @@ bool playGame()
 
                         case 1:
                         {
-                            cout << "Barley defeated you. Reviving from last savepoint." << endl;
+                            cout << "Barley defeated you. Restarting fight." << endl;
                             justDied = true;
                             break;
                         }
@@ -1333,7 +1297,7 @@ bool playGame()
 
                         case 1:
                         {
-                            cout << "Clingan defeated you. Reviving from last savepoint." << endl;
+                            cout << "Clingan defeated you. Restarting Fight." << endl;
                             justDied = true;
                             break;
                         }
@@ -1449,14 +1413,12 @@ int battle(Player *player, Enemy *enemy)
     /* Displaying result of the game to the user and returning the proper value */
     if (enemy -> getCurrentHP() <= 0)
     {
-        cout << "You won the battle." << endl;
         player -> levelUp(); // Level up once per battle 
         return 0; // Return code for a win
     }
 
     else if (player -> getCurrentHP() <= 0)
     {
-        cout << "You lost the battle. Reviving at last savepoint." << endl;
         return 1;
     }
 
