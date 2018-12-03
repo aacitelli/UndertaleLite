@@ -15,6 +15,14 @@
 
 */
 
+/* 
+
+    BUG LIST
+
+    Monster always does several million damage to the player. This is probably an integer overflow of some sort. 
+
+*/
+
 #include <iostream>
 #include <time.h> // Needed for randomization 
 
@@ -236,12 +244,18 @@ int main(void)
 // Majority of the code - Run whevever the player hits "play game" 
 void playGame()
 {
+    cout << "Entered play game function." << endl;
+
     // Flag is used for loop control a TON 
     bool quit = false, flag = false;
-    int savePoint, battleResult, userInput; 
+    int savePoint = 0, battleResult, userInput; 
+
+    cout << "Declared variables." << endl;
 
     // Initializing the player
     Player player;
+
+    cout << "Initialized player object." << endl;
 
     while (!quit)
     {
@@ -261,6 +275,8 @@ void playGame()
 
                 // Test battle to make sure the program reacts as expected
                 MrClingan testEnemy;
+
+                cout << "Initialized Mr. Clingan object." << endl;
 
                 /* This whole structure could probably be simplified using goto statements but those are not good
                     practice in most situations apparently so f*ck that I guess */
