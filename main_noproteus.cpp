@@ -19,11 +19,19 @@
 
     BUG LIST
 
-    Monster health is always an overflow value if it is declared as anything BUT a member of the base enemy class.
-    For example, using "MrClingan enemy" and then finding its health gives a value of several million. There is some code
-    in the game exhibiting this. 
-
     When you fail a run check, the window clears immediately, or in a manner that doesn't look very good. 
+
+*/
+
+/*
+
+    TODO 
+
+    Make the output look better and reset more consistently 
+
+    Fill in the actual storyline (doesn't need to be complicated, esp. if we are short on time)
+
+    Convert to Proteus Code (doesn't come until end)
 
 */
 
