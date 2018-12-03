@@ -1,35 +1,9 @@
-/* 
-
-    NOTE - EVERYTHING I'M DOING HERE
-    IS PURE C++. THIS WONT WORK WITH
-    THE PROTEUS. THIS IS BASICALLY
-    A CONSOLE VERSION OF THE PROTEUS
-    PROGRAM. 
-
-    Basically, the goal is to make a fully 
-    funtioning c++ version and just port it 
-    over to the proteus. This basically means
-    just changing certain function calls
-    and implementing the buttons system or 
-    w/e we end up doing.
-
-*/
-
-/* 
-
-    BUG LIST
-
-    When you fail a run check, the window clears immediately, or in a manner that doesn't look very good. 
-
-*/
 
 /*
 
     TODO 
 
     Make the output look better and reset more consistently 
-
-    Fill in the actual storyline (doesn't need to be complicated, esp. if we are short on time)
 
     Convert to Proteus Code (doesn't come until end)
 
@@ -104,6 +78,7 @@ class Player
 
         void levelUp()
         {
+            cout << "You've leveled up! Congratulations!" << endl;
             currentHP += 10;
             maxHP += 10;
             strength += 5;
@@ -152,7 +127,7 @@ class Enemy
 
     private: 
 
-        int strength = 5, currentHP, maxHP;
+        int strength = 10, currentHP, maxHP;
     
 };
 
@@ -226,6 +201,9 @@ int gamesPlayed, gamesWon, deaths, monstersDefeated;
 
 int main(void)
 {
+    // Todo - Convert to proteus 
+    system("cls"); // Clearing window 
+
     // Todo - Make it so that it clears the window every time for all aspects of the game and doesn't look bad 
 
     // Seeding the random number generator w/ current time
@@ -298,7 +276,7 @@ int main(void)
 void playGame()
 {
     // Flag is used for loop control a TON 
-    bool quit = false, flag = false, justDied = false;
+    bool quit = false, flag = false, justDied = false, savePointAlreadySet;
     int savePoint = 0, battleResult, userInput; 
 
     // Initializing the player
@@ -316,6 +294,7 @@ void playGame()
             // Start TO Entrance to Hitchcock 
             case 0:
             {
+                savePointAlreadySet = false;
                 // No need to initialize save point values b/c that's done in the constructor b/c this is the game start
 
                 // Rest of the code herecout << "Tonight was the night that it would all change." << endl;
@@ -339,7 +318,11 @@ void playGame()
                 cout << "back Hitchcock." << endl << endl; // Double spacing b/c it's expository
 
                 // Updating Save Point b/c the user completed this section 
-                savePoint = 1;
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 1;
+                }
+                
                 break;
             }
 
@@ -347,6 +330,7 @@ void playGame()
             {
                 // Updates save point values at the beginning of every save point so that it can be easily reset 
                 player.setSavePointValues();
+                savePointAlreadySet = false;
 
                 cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl; 
                 cout << "(1) Yes" << endl;
@@ -391,13 +375,18 @@ void playGame()
                 } 
 
                 // Updating save point b/c the user completed this section 
-                savePoint = 2;
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 2;
+                }
+                
                 break;
             }
 
             case 2: 
             {
                 player.setSavePointValues();
+                savePointAlreadySet = false;
 
                 // Rest of the code here 
                 cout << "You stop for a bite to eat right before the righteous crusade." << endl;
@@ -446,7 +435,11 @@ void playGame()
                 }                
 
                 // Updating save point b/c the user completed this section 
-                savePoint = 3;
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 3;
+                }
+                
                 break;
             }
 
@@ -454,6 +447,7 @@ void playGame()
             case 3:
             {
                 player.setSavePointValues();
+                savePointAlreadySet = false;
 
                 // Insert code here
                 cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
@@ -461,27 +455,630 @@ void playGame()
                 cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
                 cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
 
+                while (!flag)
+                {
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "Fight another proteus (6 left), or skip?" << endl;
+                cout << "(1) Fight Another" << endl;
+                cout << "(2) Skip" << endl;
+
+                cin >> userInput;
+
                 flag = false;
+
+                while (!flag)
+                {
+                    switch (userInput)
+                    {
+                        case 1:
+                        {
+                            savePoint = 4;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            savePoint = 10;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                        }
+                    }  
+                }
                 
-                savePoint = 4;
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 4;
+                }
+                
                 break;
             }
 
-            // This is just a prohibitively 
+            // Proteus bot 1 
+            case 4:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    // Insert code here
+                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "Fight another proteus (5 left), or skip?" << endl;
+                cout << "(1) Fight Another" << endl;
+                cout << "(2) Skip" << endl;
+
+                cin >> userInput;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    switch (userInput)
+                    {
+                        case 1:
+                        {
+                            savePoint = 5;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            savePoint = 10;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                        }
+                    }  
+                }
+                
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 5;
+                }
+                
+                break;
+            }
+
+            // Proteus bot 1 
+            case 5:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    // Insert code here
+                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "Fight another proteus (4 left), or skip?" << endl;
+                cout << "(1) Fight Another" << endl;
+                cout << "(2) Skip" << endl;
+
+                cin >> userInput;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    switch (userInput)
+                    {
+                        case 1:
+                        {
+                            savePoint = 6;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            savePoint = 10;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                        }
+                    }  
+                }
+                
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 6;
+                }
+                
+                break;
+            }
+
+            // Proteus bot 1 
+            case 6:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    // Insert code here
+                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "Fight another proteus (3 left), or skip?" << endl;
+                cout << "(1) Fight Another" << endl;
+                cout << "(2) Skip" << endl;
+
+                cin >> userInput;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    switch (userInput)
+                    {
+                        case 1:
+                        {
+                            savePoint = 7;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            savePoint = 10;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                        }
+                    }  
+                }
+                
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 7;
+                }
+                
+                break;
+            }
+
+            // Proteus bot 1 
+            case 7:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    // Insert code here
+                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "Fight another proteus (2 left), or skip?" << endl;
+                cout << "(1) Fight Another" << endl;
+                cout << "(2) Skip" << endl;
+
+                cin >> userInput;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    switch (userInput)
+                    {
+                        case 1:
+                        {
+                            savePoint = 8;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            savePoint = 10;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                        }
+                    }  
+                }
+                
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 8;
+                }
+                
+                break;
+            }
+
+            // Proteus bot 1 
+            case 8:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    // Insert code here
+                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "Fight another proteus (1 left), or skip?" << endl;
+                cout << "(1) Fight Another" << endl;
+                cout << "(2) Skip" << endl;
+
+                cin >> userInput;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    switch (userInput)
+                    {
+                        case 1:
+                        {
+                            savePoint = 9;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            savePoint = 10;
+                            savePointAlreadySet = true;
+                            flag = true;
+                            break;
+                        }
+
+                        default:
+                        {
+                            cout << "Invalid selection. Please enter a valid input." << endl;
+                        }
+                    }  
+                }
+                
+                if (!savePointAlreadySet)
+                {
+                    savePoint = 9;
+                }
+                
+                break;
+            }
+
+            // Proteus bot 1 
+            case 9:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                flag = false;
+
+                while (!flag)
+                {
+                    // Insert code here
+                    cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
+
+                    cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
+                    cout << "Waiting for you on the ground floor. You are forced into a fight." << endl;
+
+                    flag = false;
+
+                    while (!flag)
+                    {
+                        ProteusBot enemy;
+                        battleResult = battle(&player, &enemy);
+
+                        switch (battleResult)
+                        {
+                            case 0:
+                            {
+                                cout << "You defeated the proteus." << endl;
+                                flag = true;
+                                break;
+                            }
+
+                            case 1:
+                            {
+                                cout << "The proteus defeated you. Reviving from last savepoint." << endl;
+                                break;
+                            }
+                        }
+                    }                    
+                }
+
+                cout << "You've defeated every proteus." << endl;
+                
+                savePoint = 10;                
+                break;
+            }            
+
+            // Jane fight 
             case 10:
             {
+                cout << "Running up the stairs, you enter the second floor hallway, only to be confronted with Clingan's TA's, all conveniently spaced down the hall so that";
+                cout << "you don't have to fight more than one at a time." << endl;
 
+                cout << "Jane approaches you. The fight begins." << endl;
+
+                TA enemy;
+                
+                flag = false;
+
+                while (!flag)
+                {
+                    battleResult = battle(&player, &enemy);
+
+                    switch (battleResult)
+                    {
+                        case 1:
+                        {
+                            cout << "You defeated Jane." << endl;
+                            flag = true;
+                            break;
+                        }
+
+                        case 2:
+                        {
+                            cout << "Jane defeated you. Reviving from last savepoint." << endl;
+                            break;
+                        }
+                    }
+                }
+
+                savePoint = 11;
+                break;
             }
-        
 
-            // Adieu
+            // Aidan fight 
+            case 11:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                cout << "Aidan approaches you. The fight begins." << endl;
+
+                savePoint = 12;
+                break;
+            }
+
+            // Erma Fight
+            case 12:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                cout << "Erma appraoches you. The fight begins." << endl;
+
+                savePoint = 13;
+                break;
+
+            }            
+
+            // Barley Fight 
+            case 13:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                cout << "Barley approaches you. The fight begins." << endl;
+
+                savePoint = 14;
+                break;
+            }
+
+            // Clingan Fight 
+            case 14:
+            {
+                player.setSavePointValues();
+                savePointAlreadySet = false;
+
+                cout << "You finally approach Mr. Clingan, deep in his headquarters in B216." << endl;
+                cout << "You start the fight, motivated to finally put an end to the Clingan regime." << endl;
+
+                
+            }
         }
     }
-}
-
-void runProteusFight()
-{
-
 }
 
 /* \
@@ -493,6 +1090,9 @@ void runProteusFight()
     Return Codes Key:
     0 = Player Won 
     1 = Player Lost
+
+    This sign convention is literally the opposite of what's used in programming
+    pretty much everywhere, but it's too late to go back now. 
 
 */
 int battle(Player *player, Enemy *enemy)
