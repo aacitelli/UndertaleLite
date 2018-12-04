@@ -26,6 +26,13 @@ using namespace std;
 // These ones just cut down on code we have to write 
 #define BLACK FEHLCD::Black
 #define WHITE FEHLCD::White
+#define SLEEP_TIME 5.0 // Time to sleep in between lines
+
+/* TODO IN CLASS
+
+    Make sure everything works, bug-free, b/c I did most of this based off of memory and I could have screwed some small stuff up 
+
+*/
 
 // Game Statistics 
 int gamesPlayed, gamesWon, monstersDefeated, deaths, highestLevel;
@@ -112,8 +119,6 @@ class Player
 
         void levelUp()
         {
-            cout << "Leveled Up." << endl;
-
             // Turns out with how I did scaling making current hp go up every level is a little op and means you literally can't die even if you try 
             maxHP += 10;
             strength += 2;
@@ -344,27 +349,23 @@ bool playGame()
     Player player;
 
     /* Exposition */
-    // cout << "Tonight was the night that it would all change." << endl;
     LCD.WriteLine("Tonight was the night that it would all change.");
-    Sleep(1000); // Sleep for 1k milliseconds 
+    Sleep(SLEEP_TIME); // Sleep for 1k milliseconds 
 
-    // cout << "It all started that fateful night, many years ago. The FEH program had "; 
-    // cout << "existed peacefully, as it had for years, serving as a haven for exploration ";
-    // cout << "and learning." << endl;
     LCD.WriteLine("It all started that fateful night, many years ago. The FEH program had existed peacefully, as it had for years, serving as a haven for exploration and learning.");
-    Sleep(1000); // Sleep for 1k milliseconds
+    Sleep(SLEEP_TIME); // Sleep for 1k milliseconds
 
     // cout << "And then that peace had been torn to shreds by Clingan and his conspirators that ";
     // cout << "fateful day. Clingan and his teaching staff had risen up, and now held control of ";
     // cout << "the FEH program. They had stormed Hitchcock at night, and held the rest of the ";
     // cout << "teaching staff captive." << endl;
     LCD.WriteLine("And then that peace had been torn to shreds by Clingan and his conspirators that fateful day. Clingan and his teaching staff had risen up, and now held control of the FEH program. They had stormed Hitchcock at night, and held the rest of the teaching staff captive.");
-    Sleep(3000); // Sleep for specified time in ms
+    Sleep(SLEEP_TIME); // Sleep for specified time in ms
 
     // cout << "Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take ";
     // cout << "back Hitchcock." << endl << endl;
     LCD.WriteLine("Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take back Hitchcock.") LCD.WriteLine("");
-    Sleep(1000); // Sleep for specified time in ms
+    Sleep(SLEEP_TIME); // Sleep for specified time in ms
     
     // cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl;
     LCD.WriteLine("You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?");
@@ -372,56 +373,46 @@ bool playGame()
     // cout << "(1) Yes" << endl;
     // cout << "(2) No" << endl;
     // cout << "Your Choice: ";
-    LCD.WriteLine("(1) Yes");
-    LCD.WriteLine("(2) No");
+    LCD.WriteLine("(Touch Left Side) Yes");
+    LCD.WriteLine("(Touch Right Side) No");
     LCD.Write("Your Choice:");
-
-    cin >> userInput;
 
     bool flag = false; // Input validation GOD 
     float x, y;
 
-    while (!Touch(&x, &y)
+    while (!Touch(&x, &y) && !flag) 
     {
-        while (!flag)
+        if (Touch(&x, &y))
         {
-            if (Touch(&x, &y))
+            // Left side of screen 
+            if (x >= 0 && x <= 150)
             {
-                // Switch statement doesn't work well here b/c it's a range
-                if (x >= 0 && x <= 150)
-                {
-                    // cout << "Tom W. Davis bestows his wisdom upon you." << endl;
-                    // cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
-                    LCD.WriteLine("Tom W. Davis bestows his wisdom upon you.");
-                    LCD.WriteLine("Strength and Intellect Increased by 5. Current and Max HP increased by 10.");
+                // cout << "Tom W. Davis bestows his wisdom upon you." << endl;
+                // cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
+                LCD.WriteLine("Tom W. Davis bestows his wisdom upon you.");
+                LCD.WriteLine("Strength and Intellect Increased by 5. Current and Max HP increased by 10.");
 
-                    player.setStrength(player.getStrength() + 5);
-                    player.setIntellect(player.getIntellect() + 5);
+                player.setStrength(player.getStrength() + 5);
+                player.setIntellect(player.getIntellect() + 5);
 
-                    player.setMaxHP(player.getMaxHP() + 10);
-                    player.setCurrentHP(player.getCurrentHP() + 10);
+                player.setMaxHP(player.getMaxHP() + 10);
+                player.setCurrentHP(player.getCurrentHP() + 10);
 
-                    flag = true;
-                }
+                flag = true;
+            }
 
-                else if (x > 150 && x <= 300)
-                {
-                    // cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
-                    // cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
-                    LCD.WriteLine("You are a deplorable human being if you choose to not worship the clocktower.");
-                    LCD.WriteLine("Sense of time decreased by 5. You now have no clue what time it is.");
+            // Right side of screen 
+            else 
+            {
+                // cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
+                // cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
+                LCD.WriteLine("You are a deplorable human being if you choose to not worship the clocktower.");
+                LCD.WriteLine("Sense of time decreased by 5. You now have no clue what time it is.");
 
-                    flag = true;
-                }
-
-                else
-                {
-                    LCD.WriteLine("Invalid input (somehow). Please re-input.");
-                }
+                flag = true;
             }
         }       
-    }
-    
+    }    
 
     // Choice 2 - Determines Stats 
     // cout << "You stop for a bite to eat right before the righteous crusade." << endl;
@@ -436,16 +427,16 @@ bool playGame()
     LCD.WriteLine("(Tap Left Side) Mongolian (Strength Up)");
     LCD.WriteLine("(Tap Right Side) Breakfast Station (Intellect Up)");              
     
-    flag = false; // Input validation 
-    while (!flag)
-    {
-        // cout << "Your choice: ";
-        LCD.WriteLine("Your Choice: ");
+    LCD.WriteLine("Your Choice: ");
 
-        switch (userInput)
-        {
-            case 1: 
-            {                
+    // Waiting for input
+    flag = false;
+    while (!Touch(&x, &y) && !flag)
+    {
+        if (Touch(&x, &y))
+        {     
+            if (x >= 0 && x <= 150)
+            {
                 // cout << "Waiting for Wok...." << endl;
                 LCD.WriteLine("Waiting for Wok...");
 
@@ -454,12 +445,10 @@ bool playGame()
                 LCD.WriteLine("You had a hearty Mongolian meal. Strength increased by 5.");
                 
                 player.setStrength(player.getStrength() + 5);
-
                 flag = true;
-                break;                        
             }
 
-            case 2:
+            else 
             {
                 // cout << "You had a hearty breakfast. Intellect increased by 5." << endl;
                 LCD.WriteLine("You had a hearty breakfast. Intellect increased by 5.");
@@ -468,25 +457,13 @@ bool playGame()
 
                 flag = true;
                 break;
-            }
-
-            default:
-            {
-                // cout << "Invalid selection. Please enter a valid input." << endl;
-                LCD.WriteLine("Invalid selection. Please enter a valid input.");
-                break;
-            }
-        }   
-    }
-
-    player.setSavePointValues();
-
-    /* Begin Proteus fights */
-    bool flag2; // I'm very good at descriptive variable names if you couldn't tell 
-    flag = false;
+            }    
+        }
+    }       
     
     // This loop dictates whether or not they are done fighting proteii 
-    while (!flag)
+    bool doneFightingRobots = false;
+    while (!doneFightingRobots)
     {
         player.setSavePointValues();
 
@@ -494,53 +471,45 @@ bool playGame()
         // cout << "(1) Yes" << endl;
         // cout << "(2) No" << endl;  
         LCD.WriteLine("Fight a proteus robot to gain more XP and raise your stats?");
-        LCD.WriteLine("(1) Yes");
-        LCD.WriteLine("(2) No");
+        LCD.WriteLine("(Touch Left Side) Yes");
+        LCD.WriteLine("(Touch Right Side) No");
 
         // cout << "Your Choice: ";
         LCD.WriteLine("Your Choice: ");
 
-        cin >> userInput; 
-
-        switch (userInput)
+        // Waiting for input 
+        flag = false;
+        while (Touch(&x, *y) && !flag)
         {
-            // If the user wants to battle 
-            case 1:
+            if (&Touch(&x, &y))
             {
-                ProteusBot enemy;
-
-                // C++ doesn't like when names aren't constants, but C does, for whatever reason, so this is the workaround 
-                char const *enemyName = "Proteus Bot";
-                battleResult = battle(&player, &enemy, enemyName);
-
-                switch (battleResult)
+                // Left side of screen 
+                if (x >= 0 && x <= 150)
                 {
-                    case 1:
+                    ProteusBot enemy;
+
+                    // C++ doesn't like when names aren't constants, but C does, for whatever reason, so this is the workaround 
+                    char const *enemyName = "Proteus Bot";
+                    battleResult = battle(&player, &enemy, enemyName);
+
+                    switch (battleResult)
                     {
-                        player.restoreSavePointValues();
+                        case 1:
+                        {
+                            player.restoreSavePointValues();
+                        }
                     }
                 }
 
-                break;
-            }
-
-            // Skip the proteus step and break out of both loops basically
-            case 2:
-            {
-                flag = true;
-                break;
-            }
-
-            // Input Validation
-            default:
-            {
-                // cout << "Did not understand input. Please enter something that isn't as stupid as whatever you entered." << endl;
-                LCD.WriteLine("Did not understand input. Please enter something that isn't as stupid as whatever you entered.");
-
-                break;
+                // Right side of screen 
+                else
+                {
+                    flag = true;                    
+                }
             }            
-        }
+        }       
     }
+    
     
     /* Begin TA Fights */
     flag = false;
