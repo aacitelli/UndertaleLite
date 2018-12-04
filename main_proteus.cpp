@@ -30,7 +30,12 @@ using namespace std;
 
 /* TODO IN CLASS
 
-    Make sure everything works, bug-free, b/c I did most of this based off of memory and I could have screwed some small stuff up 
+    In General: 
+    Make sure everything works overall
+
+    Specifics:
+    Make sure screen clearing looks ok
+    Make sure touch sensing stuff for the options works as intended
 
 */
 
@@ -350,16 +355,20 @@ bool playGame()
 
     /* Exposition */
     LCD.WriteLine("Tonight was the night that it would all change.");
-    Sleep(SLEEP_TIME); // Sleep for 1k milliseconds 
+    Sleep(SLEEP_TIME);
+    LCD.Clear(); // Resets proteus screen 
 
     LCD.WriteLine("It all started that fateful night, many years ago. The FEH program had existed peacefully, as it had for years, serving as a haven for exploration and learning.");
-    Sleep(SLEEP_TIME); // Sleep for 1k milliseconds
+    Sleep(SLEEP_TIME);
+    LCD.Clear(); // Resets proteus screen 
 
     LCD.WriteLine("And then that peace had been torn to shreds by Clingan and his conspirators that fateful day. Clingan and his teaching staff had risen up, and now held control of the FEH program. They had stormed Hitchcock at night, and held the rest of the teaching staff captive.");
-    Sleep(SLEEP_TIME); // Sleep for specified time in ms
+    Sleep(SLEEP_TIME); 
+    LCD.Clear(); // Resets proteus screen 
 
     LCD.WriteLine("Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take back Hitchcock.") LCD.WriteLine("");
-    Sleep(SLEEP_TIME); // Sleep for specified time in ms
+    Sleep(SLEEP_TIME); 
+    LCD.Clear(); // Resets proteus screen 
     
     LCD.WriteLine("You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?");
 
@@ -374,6 +383,8 @@ bool playGame()
     {
         if (Touch(&x, &y))
         {
+            LCD.Clear(); // Resets proteus screen 
+
             // Left side of screen 
             if (x >= 0 && x <= 150)
             {
@@ -398,7 +409,9 @@ bool playGame()
                 flag = true;
             }
         }       
-    }    
+    }   
+
+    LCD.Clear(); // Resets proteus screen  
 
     // Choice 2 - Determines Stats 
     LCD.WriteLine("You stop for a bite to eat right before the righteous crusade.");
@@ -406,9 +419,7 @@ bool playGame()
 
     LCD.WriteLine("Options: ") ;
     LCD.WriteLine("(Tap Left Side) Mongolian (Strength Up)");
-    LCD.WriteLine("(Tap Right Side) Breakfast Station (Intellect Up)");              
-    
-    LCD.WriteLine("Your Choice: ");
+    LCD.WriteLine("(Tap Right Side) Breakfast Station (Intellect Up)");       
 
     // Waiting for input
     flag = false;
@@ -416,6 +427,8 @@ bool playGame()
     {
         if (Touch(&x, &y))
         {     
+            LCD.Clear(); // Resets proteus screen 
+
             if (x >= 0 && x <= 150)
             {
                 LCD.WriteLine("Waiting for Wok...");
@@ -438,7 +451,9 @@ bool playGame()
                 break;
             }    
         }
-    }       
+    }  
+
+    LCD.Clear(); // Resets proteus screen      
     
     // This loop dictates whether or not they are done fighting proteii 
     bool doneFightingRobots = false;
@@ -458,6 +473,8 @@ bool playGame()
         {
             if (&Touch(&x, &y))
             {
+                LCD.Clear(); // Resets proteus screen 
+
                 // Left side of screen 
                 if (x >= 0 && x <= 150)
                 {
@@ -485,166 +502,75 @@ bool playGame()
         }       
     }
     
-    
+    LCD.Clear(); // Resets proteus screen 
+    player.setSavePointValues();
+
     /* Begin TA Fights */
     flag = false;
+    int currentTA = 1;
     while (!flag)
     {
-        player.setSavePointValues();
-
-        flag2 = false;
-        while (!flag2)
+        switch (currentTA)
         {
-            LCD.WriteLine("Jane Fight: ");
-
-            TA enemy;
-            const char *enemyName = "Jane";
-            battleResult = battle(&player, &enemy, enemyName);
-
-            switch (battleResult)
+            case 1:
             {
-                // Player win 
-                case 0:
-                {
-                    flag2 = true;
-                    break;
-                }
+                TA enemy;
+                const char *enemyName = "Jane";
+                battleResult = battle(&player, &enemy, enemyName);
 
-                // Player loss 
-                case 1:
+                if (battleResult == 0)
                 {
-                    player.restoreSavePointValues(); // Resets values and the player faces jane again 
-                    break;
-                }
-
-                // Debug state 
-                default:
-                {
-                    LCD.WriteLine("Something screwed up in Jane fight.");
-
-                    break;
+                    currentTA = 2;
+                    player.setSavePointValues();
                 }
             }
-            
-        }
 
-        player.setSavePointValues();
-
-        flag2 = false;
-        while (!flag2)
-        {
-            LCD.WriteLine("Aidan Fight: ");
-
-            TA enemy;
-            const char *enemyName = "Aidan";
-            battleResult = battle(&player, &enemy, enemyName);
-
-            switch (battleResult)
+            case 2: 
             {
-                // Player win 
-                case 0:
+                TA enemy;
+                const char *enemyName = "Aidan";
+                battleResult = battle(&player, &enemy, enemyName);
+
+                if (battleResult == 0)
                 {
-                    flag2 = true;
-                    break;
+                    currentTA = 3;
+                    player.setSavePointValues();
                 }
+            }   
 
-                // Player loss 
-                case 1:
-                {
-                    player.restoreSavePointValues();
-                    break;
-                }
-
-                // Debug state 
-                default:
-                {
-                    LCD.WriteLine("Something screwed up in Aidan fight.");
-
-                    break;
-                }
-            }            
-        }
-
-        player.setSavePointValues();
-
-        flag2 = false;
-        while (!flag2)
-        { 
-            LCD.WriteLine("Barley Fight: ");
-
-            TA enemy;
-            const char *enemyName = "Barley";
-            battleResult = battle(&player, &enemy, enemyName);
-
-            switch (battleResult)
+            case 3:
             {
-                // Player win 
-                case 0:
+                TA enemy;
+                const char *enemyName = "Barley";
+                battleResult = battle(&player, &enemy, enemyName);
+
+                if (battleResult == 0)
                 {
-                    flag2 = true;
-                    break;
+                    currentTA = 4;
+                    player.setSavePointValues();
                 }
+            }
 
-                // Player loss 
-                case 1:
-                {
-                    player.restoreSavePointValues();
-                    break;
-                }
-
-                // Debug state 
-                default:
-                {
-                    LCD.WriteLine("Something screwed up in Barley fight.");
-                    break;
-                }
-            }              
-        }
-
-        player.setSavePointValues();
-
-        flag2 = false;
-        while (!flag2)
-        {    
-            LCD.WriteLine("Erma Fight: ");
-
-            TA enemy;
-            const char *enemyName = "Erma";
-            battleResult = battle(&player, &enemy, enemyName);
-
-            switch (battleResult)
+            case 4:
             {
-                // Player win 
-                case 0:
+                TA enemy;
+                const char *enemyName = "Erma";
+                battleResult = battle(&player, &enemy, enemyName);
+
+                if (battleResult == 0)
                 {
-                    flag2 = true;
                     flag = true;
-                    break;
                 }
-
-                // Player loss 
-                case 1:
-                {
-                    player.restoreSavePointValues();
-                    break;
-                }
-
-                // Debug state 
-                default:
-                {
-                    LCD.WriteLine("Something screwed up in Erma fight.");
-                    break;
-                }
-            }           
+            }
         }
     }
 
+    LCD.Clear(); // Resets proteus screen 
     
+    player.setSavePointValues();
     flag = false;
     while (!flag)
     {
-        LCD.WriteLine("Clingan Fight: ");
-
         MrClingan enemy;
         battleResult = battle(&player, &enemy, "Mr. Clingan");
         
@@ -660,15 +586,11 @@ bool playGame()
             {
                 break;
             }
-
-            default: 
-            {
-                LCD.WriteLine("Yo, Mr. Clingan control loop is screwed up");
-            }
         }
     }
 
     LCD.WriteLine("Congratulations! You Win!");
+    Sleep(SLEEP_TIME);
     gamesWon++;
 }
 
@@ -694,9 +616,13 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
     bool flag, isFirstTurn = true;
 
-    // I know what I'm doing, trust me 
+    // This is what's called "great code design" and could be fairly easily fixed...
+    // But I don't have access to a proteus and I don't want to screw anything up this
+    // Close to project completion 
     while (true)
     {     
+        LCD.Clear(); // Resets proteus screen 
+
         // Outputting results of last turn
         if (!isFirstTurn)
         {
@@ -716,23 +642,20 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
         /* Player Action */      
         LCD.WriteLine("Options: ");
-        LCD.WriteLine("(1) Attack - Weapon");
-        LCD.WriteLine("(2) Attack - Code Injection");
-        LCD.WriteLine("(3) Heal");
+        LCD.WriteLine("(Left 3rd of Screen) Attack - Weapon");
+        LCD.WriteLine("(Middle 3rd of Screen) Attack - Code Injection");
+        LCD.WriteLine("(Right 3rd of Screen) Heal");
         LCD.Write("Your Choice: ");
-
-        // Todo - Figure out how we're going to do input on the proteus 
-        cin >> userChoice;          
 
         /* User's turn */
         flag = false;
-        while (!flag)
-        {   
-            /* The user's turn */
-            switch(userChoice)
+        // Loops until the user selects an option
+        while (!Touch(&x, &y))
+        {
+            if (!Touch(&x, &y))
             {
-                // Normal Attack
-                case 1:
+                // Left third - Regular Attack (Uses Strength)
+                if (x >= 0 && x <= 100)
                 {
                     // Determining damage based on player strength 
                     playerDamage = (rand() % 10 + 1) * player -> getStrength() / 5;
@@ -740,14 +663,10 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
                     // Actually subtracting that from the monster 
                     enemy -> setCurrentHP(enemy -> getCurrentHP() - playerDamage); 
-
-                    // Breaking out of switch statement
-                    flag = true;
-                    break;
                 }
 
-                // Code Injection Attack
-                case 2:
+                // Middle third - Code Injection (Uses Intelligence)
+                else if (x > 100 && x <= 200);
                 {
                     // Determining damage based on player intellect
                     playerDamage = (rand() % 10 + 1) * player -> getIntellect() / 5;
@@ -755,36 +674,23 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
                     // Actually subtracting that from the monster 
                     enemy -> setCurrentHP(enemy -> getCurrentHP() - playerDamage);
-
-                    // Breaking out of switch statement
-                    flag = true;
-                    break;
                 }
 
-                // Healing 
-                case 3:
-                {                    
+                // Right third - Heal 
+                else 
+                {
                     playerHeal = 30;
                     playerDamage = 0;
 
                     player -> heal();
-
-                    flag = true;
-                    break;
                 }
-                
-                // Input validation 
-                default:
-                {
-                    LCD.WriteLine("Illegitimate Input");
-                }
-            }            
-        }       
+            }
+        }     
 
         // Checking if the monster is dead 
         if (enemy -> getCurrentHP() <= 0)
         {
-            LCD.WriteLine("You KilLCD The Enemy! Level Up!");
+            LCD.WriteLine("You Killed The Enemy! Level Up!");
 
             player -> levelUp();
             monstersDefeated++;
@@ -795,13 +701,11 @@ int battle(Player *player, Enemy *enemy, const char *name)
         /* Monster's turn */
         monsterDamage = (rand() % 10 + 1) * enemy -> getStrength() / 12;
         player -> setCurrentHP(player -> getCurrentHP() - monsterDamage);
-     
-        LCD.Write("The monster did "); LCD.Write(monsterDamage); LCD.WriteLine(" damage to you.");
 
         // Checking if the player is dead
         if (player -> getCurrentHP() <= 0)
         {
-            LCD.WriteLine("The enemy kilLCD you. Starting from most recent save point.");
+            LCD.WriteLine("The enemy killed you. Starting from most recent save point.");
 
             deaths++;
             return 1;
