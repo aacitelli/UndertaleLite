@@ -37,6 +37,9 @@ using namespace std;
     Make sure screen clearing looks ok
     Make sure touch sensing stuff for the options works as intended
 
+    Low-Priority:
+    Make comments more concise / Make sure there are enough present for clarity 
+
 */
 
 // Game Statistics 
@@ -397,6 +400,8 @@ bool playGame()
                 player.setMaxHP(player.getMaxHP() + 10);
                 player.setCurrentHP(player.getCurrentHP() + 10);
 
+                Sleep(SLEEP_TIME); // Makes output readable 
+
                 flag = true;
             }
 
@@ -405,6 +410,8 @@ bool playGame()
             {
                 LCD.WriteLine("You are a deplorable human being if you choose to not worship the clocktower.");
                 LCD.WriteLine("Sense of time decreased by 5. You now have no clue what time it is.");
+
+                Sleep(SLEEP_TIME); // Makes output readable 
 
                 flag = true;
             }
@@ -416,6 +423,8 @@ bool playGame()
     // Choice 2 - Determines Stats 
     LCD.WriteLine("You stop for a bite to eat right before the righteous crusade.");
     LCD.WriteLine("Which station at Scott do you stop?");
+
+    Sleep(SLEEP_TIME); // Makes output readable 
 
     LCD.WriteLine("Options: ") ;
     LCD.WriteLine("(Tap Left Side) Mongolian (Strength Up)");
@@ -436,6 +445,7 @@ bool playGame()
                 // Todo - Make this a longer wait time than the rest 
 
                 LCD.WriteLine("You had a hearty Mongolian meal. Strength increased by 5.");
+                Sleep(SLEEP_TIME); // Makes output readable 
                 
                 player.setStrength(player.getStrength() + 5);
                 flag = true;
@@ -444,6 +454,7 @@ bool playGame()
             else 
             {
                 LCD.WriteLine("You had a hearty breakfast. Intellect increased by 5.");
+                Sleep(SLEEP_TIME); // Makes output readable 
 
                 player.setIntellect(player.getIntellect() + 5);
 
@@ -725,6 +736,7 @@ void displayRules()
 
     // Spacing
     LCD.WriteLine("");
+    Sleep(SLEEP_TIME); // Makes output readable 
 }
 
 // Displays credits - Run when the user hits "credits"
@@ -737,6 +749,7 @@ void displayCredits()
     
     // Spacing
     LCD.WriteLine("");
+    Sleep(SLEEP_TIME); // Makes output readable 
 }
 
 // Displays Stats  - Run when the user hits "stats"
@@ -752,6 +765,8 @@ void displayStats()
     LCD.Write("Enemies Defeated: "); LCD.Write(monstersDefeated); LCD.WriteLine("");
     LCD.Write("Deaths: "); LCD.Write(deaths); LCD.WriteLine();
     LCD.Write("Highest Level: "); LCD.Write(highestLevel); LCD.WriteLine();
+
+    Sleep(SLEEP_TIME); // Makes output readable 
 
     // Spacing 
     LCD.WriteLine();
