@@ -66,6 +66,19 @@ class Player
             intellect = parameter;
         }
 
+        void heal()
+        {
+            if (maxHP - currentHP < 30)
+            {
+                currentHP = maxHP;
+            }
+
+            else
+            {
+                currentHP += 30;
+            }
+        }
+
         /* Save Point Methods */       
 
         // Backs up values so they can be restored to upon death 
@@ -78,6 +91,7 @@ class Player
 
         void restoreSavePointValues()
         {
+            currentHP = maxHP;
             maxHP = spMaxHP;
             strength = spStrength;
             intellect = spIntellect;
@@ -85,13 +99,15 @@ class Player
 
         void levelUp()
         {
-            cout << "You've leveled up! Congratulations!" << endl;
-            currentHP += 10;
+            cout << "Leveled Up." << endl;
+
+            // Turns out with how I did scaling making current hp go up every level is a little op and means you literally can't die even if you try 
             maxHP += 10;
-            strength += 5;
-            intellect += 5;
+            strength += 2;
+            intellect += 2;
             currentLevel++;
 
+            // Stats tracking 
             if (currentLevel > highestLevel)
             {
                 highestLevel = currentLevel;
@@ -145,7 +161,7 @@ class Enemy
 
     private: 
 
-        int strength = 20, currentHP, maxHP;
+        int strength = 50, currentHP, maxHP;
     
 };
 
@@ -193,20 +209,20 @@ ProteusBot::ProteusBot()
 // TA constructor
 TA::TA()
 {
-    setCurrentHP(300);
-    setMaxHP(300);
+    setCurrentHP(250);
+    setMaxHP(250);
 }
 
 // Mr Clingan's very own constructor
 MrClingan::MrClingan()
 {
-    setCurrentHP(500);
-    setMaxHP(500);
+    setCurrentHP(400);
+    setMaxHP(400);
 }
 
 /* Function Protypes - Must be declared after class declarations */
 bool playGame(); 
-int battle(Player* player, Enemy* enemy);
+int battle(Player* player, Enemy* enemy, const char *name);
 void displayRules();
 void displayCredits();
 void displayStats();
@@ -286,1069 +302,357 @@ int main(void)
 bool playGame()
 {
     gamesPlayed++;
-
-    // Flag is used for loop control a TON 
-    bool quit = false, flag = false, justDied = false, savePointAlreadySet;
-    int savePoint = 0, battleResult, userInput; 
+    int battleResult, userInput; 
 
     // Initializing the player
     Player player;
 
-    while (!quit)
+    /* Exposition */
+    cout << "Tonight was the night that it would all change." << endl;
+
+    cout << "It all started that fateful night, many years ago. The FEH program had "; 
+    cout << "Existed peacefully, as it had for years, serving as a haven for exploration ";
+    cout << "and learning." << endl;
+
+    cout << "And then that peace had been torn to shreds by Clingan and his conspirators that ";
+    cout << "fateful day. Clingan and his teaching staff had risen up, and now held control of ";
+    cout << "The FEH program. They had stormed Hitchcock at night, and held the rest of the ";
+    cout << "Teaching staff captive." << endl;
+
+    cout << "Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take ";
+    cout << "back Hitchcock." << endl << endl;
+    
+    cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl; 
+    cout << "(1) Yes" << endl;
+    cout << "(2) No" << endl;
+    cout << "Your Choice: ";
+
+    cin >> userInput;
+
+    bool flag = false; // Input validation GOD 
+    while (!flag)
     {
-        switch(savePoint)
+        // Choice 1 - Determines Stats
+        switch (userInput)
         {
-            /* If the user ever dies or has to go back to a previous savepoint, you just break out of the savepoint.
-                If you need to break out otherwise (if the user passes a segment) you just update the savepoint, 
-                THEN break. */ 
+            case 1:
+            {
+                cout << "Tom W. Davis bestows his wisdom upon you." << endl;
+                cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
 
+                player.setStrength(player.getStrength() + 5);
+                player.setIntellect(player.getIntellect() + 5);
+
+                player.setMaxHP(player.getMaxHP() + 10);
+                player.setCurrentHP(player.getCurrentHP() + 10);
+
+                flag = true;
+                break;
+            }
+
+            case 2:
+            {
+                cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
+                cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
+
+                flag = true;
+                break;
+            }
+
+            default: 
+            {
+                cout << "Invalid selection. Please enter a valid input." << endl;
+
+                break;
+            }                       
+        }
+    }       
+
+    // Choice 2 - Determines Stats 
+    cout << "You stop for a bite to eat right before the righteous crusade." << endl;
+    cout << "Which station at Scott do you stop?" << endl;    
+
+    cout << "Options: " << endl;
+    cout << "(1) Mongolian (Strength Up)" << endl;
+    cout << "(2) Breakfast Station (Intellect Up)" << endl;                      
+    
+    flag = false; // Input validation 
+    while (!flag)
+    {
+        cout << "Your choice: ";
+        cin >> userInput; 
+
+        switch (userInput)
+        {
+            case 1: 
+            {
+                cout << "Waiting for Wok...." << endl;
+
+                // Todo - Insert 5 second wait time 
+                cout << "You had a hearty Mongolian meal. Strength increased by 5." << endl;
+                
+                player.setStrength(player.getStrength() + 5);
+
+                flag = true;
+                break;                        
+            }
+
+            case 2:
+            {
+                cout << "You had a hearty breakfast. Intellect increased by 5." << endl;
+                player.setIntellect(player.getIntellect() + 5);
+
+                flag = true;
+                break;
+            }
+
+            default:
+            {
+                cout << "Invalid selection. Please enter a valid input." << endl;
+                break;
+            }
+        }   
+    }
+
+    player.setSavePointValues();
+
+    /* Begin Proteus fights */
+    bool flag2; // I'm very good at descriptive variable names if you couldn't tell 
+    flag = false;
+    
+    // This loop dictates whether or not they are done fighting proteii 
+    while (!flag)
+    {
+        player.setSavePointValues();
+
+        cout << "Fight a proteus robot to gain more XP and raise your stats?" << endl;          
+        cout << "(1) Yes" << endl;
+        cout << "(2) No" << endl;  
+
+        cout << "Your Choice: ";
+        cin >> userInput; 
+
+        switch (userInput)
+        {
+            // If the user wants to battle 
+            case 1:
+            {
+                ProteusBot enemy;
+
+                // C++ doesn't like when names aren't constants, but C does, for whatever reason, so this is the workaround 
+                char const *enemyName = "Proteus Bot";
+                battleResult = battle(&player, &enemy, enemyName);
+
+                switch (battleResult)
+                {
+                    case 1:
+                    {
+                        player.restoreSavePointValues();
+                    }
+                }
+
+                break;
+            }
+
+            // Skip the proteus step and break out of both loops basically
+            case 2:
+            {
+                flag = true;
+                break;
+            }
+
+            // Input Validation
+            default:
+            {
+                cout << "Did not understand input. Please enter something that isn't as stupid as whatever you entered." << endl;
+                break;
+            }            
+        }
+    }
+    
+    /* Begin TA Fights */
+    flag = false;
+    while (!flag)
+    {
+        player.setSavePointValues();
+
+        flag2 = false;
+        while (!flag2)
+        {
+            cout << "Jane Fight: " << endl;
+
+            TA enemy;
+            const char *enemyName = "Jane";
+            battleResult = battle(&player, &enemy, enemyName);
+
+            switch (battleResult)
+            {
+                // Player win 
+                case 0:
+                {
+                    flag2 = true;
+                    break;
+                }
+
+                // Player loss 
+                case 1:
+                {
+                    player.restoreSavePointValues(); // Resets values and the player faces jane again 
+                    break;
+                }
+
+                // Debug state 
+                default:
+                {
+                    cout << "Smth screwed up in Jane fight." << endl;
+                    break;
+                }
+            }
             
+        }
 
-            // Start TO Entrance to Hitchcock 
+        player.setSavePointValues();
+
+        flag2 = false;
+        while (!flag2)
+        {
+            cout << "Aidan Fight: " << endl;
+
+            TA enemy;
+            const char *enemyName = "Aidan";
+            battleResult = battle(&player, &enemy, enemyName);
+
+            switch (battleResult)
+            {
+                // Player win 
+                case 0:
+                {
+                    flag2 = true;
+                    break;
+                }
+
+                // Player loss 
+                case 1:
+                {
+                    player.restoreSavePointValues();
+                    break;
+                }
+
+                // Debug state 
+                default:
+                {
+                    cout << "Smth screwed up in Jane fight." << endl;
+                    break;
+                }
+            }            
+        }
+
+        player.setSavePointValues();
+
+        flag2 = false;
+        while (!flag2)
+        {
+            cout << "Barley Fight" << endl;  
+
+            TA enemy;
+            const char *enemyName = "Barley";
+            battleResult = battle(&player, &enemy, enemyName);
+
+            switch (battleResult)
+            {
+                // Player win 
+                case 0:
+                {
+                    flag2 = true;
+                    break;
+                }
+
+                // Player loss 
+                case 1:
+                {
+                    player.restoreSavePointValues();
+                    break;
+                }
+
+                // Debug state 
+                default:
+                {
+                    cout << "Smth screwed up in Jane fight." << endl;
+                    break;
+                }
+            }              
+        }
+
+        player.setSavePointValues();
+
+        flag2 = false;
+        while (!flag2)
+        {
+            cout << "Erma Fight" << endl;     
+
+            TA enemy;
+            const char *enemyName = "Erma";
+            battleResult = battle(&player, &enemy, enemyName);
+
+            switch (battleResult)
+            {
+                // Player win 
+                case 0:
+                {
+                    flag2 = true;
+                    flag = true;
+                    break;
+                }
+
+                // Player loss 
+                case 1:
+                {
+                    player.restoreSavePointValues();
+                    break;
+                }
+
+                // Debug state 
+                default:
+                {
+                    cout << "Smth screwed up in Jane fight." << endl;
+                    break;
+                }
+            }           
+        }
+    }
+
+    
+    flag = false;
+    while (!flag)
+    {
+        cout << "Clingan Fight: " << endl;
+
+
+        MrClingan enemy;
+        battleResult = battle(&player, &enemy, "Mr. Clingan");
+        
+        switch (battleResult)
+        {
             case 0:
             {
-                system("cls");
-                savePointAlreadySet = false;
-                // No need to initialize save point values b/c that's done in the constructor b/c this is the game start
-
-                cout << "Tonight was the night that it would all change." << endl;
-
-                cout << "It all started that fateful night, many years ago. The FEH program had "; 
-                cout << "Existed peacefully, as it had for years, serving as a haven for exploration ";
-                cout << "and learning." << endl;
-
-                cout << "And then that peace had been torn to shreds by Clingan and his conspirators that ";
-                cout << "fateful day. Clingan and his teaching staff had risen up, and now held control of ";
-                cout << "The FEH program. They had stormed Hitchcock at night, and held the rest of the ";
-                cout << "Teaching staff captive." << endl;
-
-                cout << "Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take ";
-                cout << "back Hitchcock." << endl << endl; // Double spacing b/c it's expository
-
-                // Updating Save Point b/c the user completed this section 
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 1;
-                }
-                
+                flag = true;
                 break;
             }
 
             case 1:
             {
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl; 
-                cout << "(1) Yes" << endl;
-                cout << "(2) No" << endl;
-                cout << "Your Choice: ";
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            system("cls");
-
-                            cout << "Tom W. Davis bestows his wisdom upon you." << endl;
-                            cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
-
-                            player.setStrength(player.getStrength() + 5);
-                            player.setIntellect(player.getIntellect() + 5);
-
-                            player.setMaxHP(player.getMaxHP() + 10);
-                            player.setCurrentHP(player.getCurrentHP() + 10);
-
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            system("cls");
-                            cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
-                            cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
-
-                            flag = true;
-                            break;
-                        }
-
-                        default: 
-                        {
-                            system("cls");
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                            break;
-                        }                       
-                    }                     
-                }
-                
-
-                // Updating save point b/c the user completed this section 
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 2;
-                }
-                
                 break;
             }
 
-            case 2: 
+            default: 
             {
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                // Rest of the code here 
-                cout << "You stop for a bite to eat right before the righteous crusade." << endl;
-
-                cout << "Which station at Scott do you stop?" << endl;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    cout << "Options: " << endl;
-                    cout << "(1) Mongolian (Strength Up)" << endl;
-                    cout << "(2) Breakfast Station (Intellect Up)" << endl;
-                    cout << "Your choice: ";
-
-                    cin >> userInput;                   
-                    
-                    switch (userInput)
-                    {
-                        case 1: 
-                        {
-                            system("cls");
-                            cout << "Waiting for Wok...." << endl;
-
-                            // Todo - Insert 5 second wait time 
-                            cout << "You had a hearty Mongolian meal. Strength increased by 5." << endl;
-                            
-                            player.setStrength(player.getStrength() + 5);
-                            flag = true;
-                            break;                        
-                        }
-
-                        case 2:
-                        {
-                            system("cls");
-                            cout << "You had a hearty breakfast. Intellect increased by 5." << endl;
-                            player.setIntellect(player.getIntellect() + 5);
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            system("cls");
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                            break;
-                        }
-                    }
-                }                
-
-                // Updating save point b/c the user completed this section 
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 3;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 3:
-            {
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                // Insert code here
-                cout << "After a nice meal, you and your team do a lap around Hitchcock." << endl;
-
-                cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
-                cout << "Waiting for you on the ground floor. You are forced into a fight." << endl << endl;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    ProteusBot enemy;
-                    battleResult = battle(&player, &enemy);
-
-                    switch (battleResult)
-                    {
-                        case 0:
-                        {
-                            cout << "You defeated the proteus." << endl;
-                            flag = true;
-                            break;
-                        }
-
-                        case 1:
-                        {
-                            cout << "The proteus defeated you. Restarting Fight." << endl;
-                            justDied = true;
-                            flag = true;
-                            break;
-                        }
-                    }
-                } 
-
-                cout << "Fight another proteus (6 left), or skip?" << endl;
-                cout << "(1) Fight Another" << endl;
-                cout << "(2) Skip" << endl;
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            savePoint = 4;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            savePoint = 10;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                            break;
-                        }
-                    }  
-                }
-                
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 4;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 4:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    flag = false;
-
-                    while (!flag)
-                    {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
-                        {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting Fight." << endl;
-                                justDied = true;
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }                    
-                }
-
-                cout << "Fight another proteus (5 left), or skip?" << endl;
-                cout << "(1) Fight Another" << endl;
-                cout << "(2) Skip" << endl;
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            savePoint = 5;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            savePoint = 10;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                        }
-                    }  
-                }
-                
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 5;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 5:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-                
-                savePointAlreadySet = false;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    flag = false;
-
-                    while (!flag)
-                    {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
-                        {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting fight." << endl;
-                                justDied = true;
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }                    
-                }
-
-                cout << "Fight another proteus (4 left), or skip?" << endl;
-                cout << "(1) Fight Another" << endl;
-                cout << "(2) Skip" << endl;
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            savePoint = 6;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            savePoint = 10;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                        }
-                    }  
-                }
-                
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 6;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 6:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    flag = false;
-
-                    while (!flag)
-                    {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
-                        {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting fight." << endl;
-                                justDied = true;
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }                    
-                }
-
-                cout << "Fight another proteus (3 left), or skip?" << endl;
-                cout << "(1) Fight Another" << endl;
-                cout << "(2) Skip" << endl;
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            savePoint = 7;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            savePoint = 10;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                        }
-                    }  
-                }
-                
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 7;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 7:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    flag = false;
-
-                    while (!flag)
-                    {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
-                        {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting fight." << endl;
-                                justDied = true;
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }                    
-                }
-
-                cout << "Fight another proteus (2 left), or skip?" << endl;
-                cout << "(1) Fight Another" << endl;
-                cout << "(2) Skip" << endl;
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            savePoint = 8;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            savePoint = 10;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                        }
-                    }  
-                }
-                
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 8;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 8:
-            {
-                system("cls");
-                
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    flag = false;
-
-                    while (!flag)
-                    {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
-                        {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting fight." << endl;
-                                justDied = true;
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }                    
-                }
-
-                cout << "Fight another proteus (1 left), or skip?" << endl;
-                cout << "(1) Fight Another" << endl;
-                cout << "(2) Skip" << endl;
-
-                cin >> userInput;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                        {
-                            savePoint = 9;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        case 2:
-                        {
-                            savePoint = 10;
-                            savePointAlreadySet = true;
-                            flag = true;
-                            break;
-                        }
-
-                        default:
-                        {
-                            cout << "Invalid selection. Please enter a valid input." << endl;
-                        }
-                    }  
-                }
-                
-                if (!savePointAlreadySet)
-                {
-                    savePoint = 9;
-                }
-                
-                break;
-            }
-
-            // Proteus bot 1 
-            case 9:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    flag = false;
-
-                    while (!flag)
-                    {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
-                        {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting fight." << endl;
-                                justDied = true;
-                                flag = true;
-                                break;
-                            }
-                        }
-                    }                    
-                }
-
-                cout << "You've defeated every proteus." << endl;
-                
-                savePoint = 10;                
-                break;
-            }            
-
-            // Jane fight 
-            case 10:
-            {
-                system("cls");
-                cout << "Hey, look, I got here!" << endl;
-
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                cout << "Running up the stairs, you enter the second floor hallway, only to be confronted with Clingan's TA's, all conveniently spaced down the hall so that";
-                cout << "you don't have to fight more than one at a time." << endl;
-
-                cout << "Jane approaches you and insults your Results & Description. Enranged, you attack." << endl;                
-                
-                flag = false;
-
-                while (!flag)
-                {
-                    TA enemy;
-                    battleResult = battle(&player, &enemy);
-
-                    switch (battleResult)
-                    {
-                        case 0:
-                        {
-                            cout << "You defeated Jane." << endl;
-                            flag = true;
-                            break;
-                        }
-
-                        case 1:
-                        {
-                            cout << "Jane defeated you. Restarting fight." << endl;
-                            justDied = true;
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-
-                savePoint = 11;
-                break;
-            }
-
-            // Aidan fight 
-            case 11:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                cout << "Aidan approaches you. The fight begins." << endl;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    TA enemy;
-                    battleResult = battle(&player, &enemy);
-
-                    switch (battleResult)
-                    {
-                        case 0:
-                        {
-                            cout << "You defeated Aidan." << endl;
-                            flag = true;
-                            break;
-                        }
-
-                        case 1:
-                        {
-                            cout << "Aidan defeated you. Restarting fight." << endl;
-                            justDied = true;
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-
-                savePoint = 12;
-                break;
-            }
-
-            // Erma Fight
-            case 12:
-            {
-                system("cls");
-
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                cout << "Erma approaches you. The fight begins." << endl;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    TA enemy;
-                    battleResult = battle(&player, &enemy);
-
-                    switch (battleResult)
-                    {
-                        case 0:
-                        {
-                            cout << "You defeated Erma." << endl;
-                            flag = true;
-                            break;
-                        }
-
-                        case 1:
-                        {
-                            cout << "Erma defeated you. Restarting fight." << endl;
-                            justDied = true;
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-
-                savePoint = 13;
-                break;
-
-            }            
-
-            // Barley Fight 
-            case 13:
-            {
-                system("cls");
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;
-
-                cout << "Barley approaches you. The fight begins." << endl;
-
-                flag = false;
-
-                while (!flag)
-                {
-                    TA enemy;
-                    battleResult = battle(&player, &enemy);
-
-                    switch (battleResult)
-                    {
-                        case 0:
-                        {
-                            cout << "You defeated Barley." << endl;
-                            flag = true;
-                            break;
-                        }
-
-                        case 1:
-                        {
-                            cout << "Barley defeated you. Restarting fight." << endl;
-                            justDied = true;
-                            flag = true;
-                            break;
-                        }
-                    }
-                }
-
-                savePoint = 14;
-                break;
-            }
-
-            // Clingan Fight 
-            case 14:
-            {
-                // If they just died, reset to the previous savestate's values 
-                if (justDied)
-                {
-                    player.restoreSavePointValues();
-                    justDied = false;
-                }
-
-                else
-                {
-                    player.setSavePointValues();
-                }
-
-                savePointAlreadySet = false;                
-
-                cout << "You finally approach Mr. Clingan, deep in his headquarters in B216." << endl;
-                cout << "You start the fight, motivated to finally put an end to the Clingan regime." << endl;  
-
-                flag = false;
-
-                while (!flag)
-                {
-                    TA enemy;
-                    battleResult = battle(&player, &enemy);
-
-                    switch (battleResult)
-                    {
-                        case 0:
-                        {
-                            cout << "You defeated Clingan. His reign is over." << endl;
-                            flag = true;
-                            break;
-                        }
-
-                        case 1:
-                        {
-                            cout << "Clingan defeated you. Restarting Fight." << endl;
-                            justDied = true;
-                            flag = true;
-                            break;
-                        }
-                    }
-                }      
-
-                // Indicates that it's a win 
-                gamesWon++;
-                return true;        
+                cout << "Unintented program behavior in Mr. Clingan switch statement." << endl;
             }
         }
     }
+
+    cout << "Congratulations! You win!" << endl;
+    gamesWon++;
 }
 
 /* \
@@ -1365,108 +669,126 @@ bool playGame()
     pretty much everywhere, but it's too late to go back now. 
 
 */
-int battle(Player *player, Enemy *enemy)
+int battle(Player *player, Enemy *enemy, const char *name)
 {
     // This variable gets changed whenever a condition to exit gets tripped 
     bool canExitLoop = false;
-    int userChoice, damage; 
+    int userChoice, playerDamage, monsterDamage, playerHeal;
 
-    // Loops until somebody dies or the user successfully ran from the battle 
-    while (!canExitLoop)
+    bool flag, isFirstTurn = true;
+
+    // I know what I'm doing, trust me 
+    while (true)
     {     
+        system("cls");
+
+        // Outputting results of last turn
+        if (!isFirstTurn)
+        {
+            cout << "You did " << playerDamage << " damage that turn." << endl;
+            cout << "You did " << playerHeal << " healing that turn." << endl;
+            cout << "The monster did " << monsterDamage << " damage that turn." << endl << endl;
+        }
+
+        else
+        {
+            isFirstTurn = false;
+        }
+
+        // Displaying Health for both players
+        cout << "Current Enemy: " << name << endl;
+        cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl << endl;
+
         /* Player Action */
         cout << "Options: " << endl;
         cout << "(1) Attack - Weapon" << endl;
         cout << "(2) Attack - Code Injection" << endl;
+        cout << "(3) Heal" << endl;
         cout << "Your Choice: ";         
 
-        cin >> userChoice;
+        cin >> userChoice;          
 
-        system("cls");
-
-        // Displaying Health for both players
-        cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl;
-
-        switch(userChoice)
-        {
-            // Normal Attack
-            case 1:
+        /* User's turn */
+        flag = false;
+        while (!flag)
+        {   
+            /* The user's turn */
+            switch(userChoice)
             {
-                // Determining damage based on player strength 
-                damage = (rand() % 10 + 1) * player -> getStrength() / 5;
+                // Normal Attack
+                case 1:
+                {
+                    // Determining damage based on player strength 
+                    playerDamage = (rand() % 10 + 1) * player -> getStrength() / 5;
+                    playerHeal = 0;
 
-                // Actually subtracting that from the monster 
-                enemy -> setCurrentHP(enemy -> getCurrentHP() - damage); 
+                    // Actually subtracting that from the monster 
+                    enemy -> setCurrentHP(enemy -> getCurrentHP() - playerDamage); 
+
+                    // Breaking out of switch statement
+                    flag = true;
+                    break;
+                }
+
+                // Code Injection Attack
+                case 2:
+                {
+                    // Determining damage based on player intellect
+                    playerDamage = (rand() % 10 + 1) * player -> getIntellect() / 5;
+                    playerHeal = 0;
+
+                    // Actually subtracting that from the monster 
+                    enemy -> setCurrentHP(enemy -> getCurrentHP() - playerDamage);
+
+                    // Breaking out of switch statement
+                    flag = true;
+                    break;
+                }
+
+                // Healing 
+                case 3:
+                {                    
+                    playerHeal = 30;
+                    playerDamage = 0;
+
+                    player -> heal();
+
+                    flag = true;
+                    break;
+                }
                 
-                cout << "You did " << damage << " damage to the monster" << endl;
-
-                // Breaking out of switch statement
-                break;
-            }
-
-            // Code Injection Attack
-            case 2:
-            {
-                // Determining damage based on player intellect
-                damage = (rand() % 10 + 1) * player -> getIntellect() / 5;
-
-                // Actually subtracting that from the monster 
-                enemy -> setCurrentHP(enemy -> getCurrentHP() - damage);
-
-                cout << "You did " << damage << " damage to the monster." << endl;
-
-                // Breaking out of switch statement
-                break;
-            }
-            
-            // Todo - Error checking 
-        }
+                // Input validation 
+                default:
+                {
+                    cout << "Illegitimate input." << endl;
+                }
+            }            
+        }       
 
         // Checking if the monster is dead 
         if (enemy -> getCurrentHP() <= 0)
         {
-            canExitLoop = true;
+            cout << "You killed the enemy! Level up!" << endl;
+            player -> levelUp();
             monstersDefeated++;
+            return 0;
             break; // Monster's dead, don't need to continue the battle any more 
         }
 
-        /* Monster Action */
+        /* Monster's turn */
+        monsterDamage = (rand() % 10 + 1) * enemy -> getStrength() / 12;
+        player -> setCurrentHP(player -> getCurrentHP() - monsterDamage);
 
-        // Have to make sure the monster isn't dead or the player ran, in which case battle is over and these calculations don't need to happen 
-        if (!canExitLoop)
-        {
-            // Same procedure as above, except w/o the choice and switch statement 
-            damage = (rand() % 10 + 1) * enemy -> getStrength() / 12;
-            player -> setCurrentHP(player -> getCurrentHP() - damage);
+        cout << "The monster did " << monsterDamage << " damage to you." << endl;      
 
-            cout << "The monster did " << damage << " damage to you." << endl;
-        }
-
-        // checking if the player is dead
+        // Checking if the player is dead
         if (player -> getCurrentHP() <= 0)
         {
-            canExitLoop = true;
+            cout << "The enemy killed you. Starting from most recent save point." << endl;
             deaths++;
+            return 1;
             break; // You're dead, don't need to continue the battle any more
-        }
-    }
-
-    /* Displaying result of the game to the user and returning the proper value */
-    if (enemy -> getCurrentHP() <= 0)
-    {
-        player -> levelUp(); // Level up once per battle 
-        return 0; // Return code for a win
-    }
-
-    else if (player -> getCurrentHP() <= 0)
-    {
-        return 1;
-    }
-
-    else
-    {
-        cout << "Battle function exited when it shouldn't have, seeing as both player and enemy have >= 0 health." << endl;
-        return 3; // Error code 
+        }          
     }
 }
 
