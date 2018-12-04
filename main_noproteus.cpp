@@ -302,10 +302,12 @@ bool playGame()
                 If you need to break out otherwise (if the user passes a segment) you just update the savepoint, 
                 THEN break. */ 
 
+            
 
             // Start TO Entrance to Hitchcock 
             case 0:
             {
+                system("cls");
                 savePointAlreadySet = false;
                 // No need to initialize save point values b/c that's done in the constructor b/c this is the game start
 
@@ -363,6 +365,8 @@ bool playGame()
                     {
                         case 1:
                         {
+                            system("cls");
+
                             cout << "Tom W. Davis bestows his wisdom upon you." << endl;
                             cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
 
@@ -378,6 +382,7 @@ bool playGame()
 
                         case 2:
                         {
+                            system("cls");
                             cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
                             cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
 
@@ -387,6 +392,7 @@ bool playGame()
 
                         default: 
                         {
+                            system("cls");
                             cout << "Invalid selection. Please enter a valid input." << endl;
                             break;
                         }                       
@@ -439,6 +445,7 @@ bool playGame()
                     {
                         case 1: 
                         {
+                            system("cls");
                             cout << "Waiting for Wok...." << endl;
 
                             // Todo - Insert 5 second wait time 
@@ -451,6 +458,7 @@ bool playGame()
 
                         case 2:
                         {
+                            system("cls");
                             cout << "You had a hearty breakfast. Intellect increased by 5." << endl;
                             player.setIntellect(player.getIntellect() + 5);
                             flag = true;
@@ -459,6 +467,7 @@ bool playGame()
 
                         default:
                         {
+                            system("cls");
                             cout << "Invalid selection. Please enter a valid input." << endl;
                             break;
                         }
@@ -497,33 +506,31 @@ bool playGame()
                 cout << "Seeing nobody at the north entrance, you sneak in, only to find Clingan's Proteii army";
                 cout << "Waiting for you on the ground floor. You are forced into a fight." << endl << endl;
 
+                flag = false;
+
                 while (!flag)
                 {
-                    flag = false;
+                    ProteusBot enemy;
+                    battleResult = battle(&player, &enemy);
 
-                    while (!flag)
+                    switch (battleResult)
                     {
-                        ProteusBot enemy;
-                        battleResult = battle(&player, &enemy);
-
-                        switch (battleResult)
+                        case 0:
                         {
-                            case 0:
-                            {
-                                cout << "You defeated the proteus." << endl;
-                                flag = true;
-                                break;
-                            }
-
-                            case 1:
-                            {
-                                cout << "The proteus defeated you. Restarting Fight." << endl;
-                                justDied = true;
-                                break;
-                            }
+                            cout << "You defeated the proteus." << endl;
+                            flag = true;
+                            break;
                         }
-                    }                    
-                }
+
+                        case 1:
+                        {
+                            cout << "The proteus defeated you. Restarting Fight." << endl;
+                            justDied = true;
+                            flag = true;
+                            break;
+                        }
+                    }
+                } 
 
                 cout << "Fight another proteus (6 left), or skip?" << endl;
                 cout << "(1) Fight Another" << endl;
@@ -556,6 +563,7 @@ bool playGame()
                         default:
                         {
                             cout << "Invalid selection. Please enter a valid input." << endl;
+                            break;
                         }
                     }  
                 }
@@ -571,6 +579,7 @@ bool playGame()
             // Proteus bot 1 
             case 4:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -609,6 +618,7 @@ bool playGame()
                             {
                                 cout << "The proteus defeated you. Restarting Fight." << endl;
                                 justDied = true;
+                                flag = true;
                                 break;
                             }
                         }
@@ -661,6 +671,7 @@ bool playGame()
             // Proteus bot 1 
             case 5:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -699,6 +710,7 @@ bool playGame()
                             {
                                 cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
+                                flag = true;
                                 break;
                             }
                         }
@@ -751,6 +763,7 @@ bool playGame()
             // Proteus bot 1 
             case 6:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -789,6 +802,7 @@ bool playGame()
                             {
                                 cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
+                                flag = true;
                                 break;
                             }
                         }
@@ -841,6 +855,7 @@ bool playGame()
             // Proteus bot 1 
             case 7:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -879,6 +894,7 @@ bool playGame()
                             {
                                 cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
+                                flag = true;
                                 break;
                             }
                         }
@@ -931,6 +947,8 @@ bool playGame()
             // Proteus bot 1 
             case 8:
             {
+                system("cls");
+                
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -969,6 +987,7 @@ bool playGame()
                             {
                                 cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
+                                flag = true;
                                 break;
                             }
                         }
@@ -1021,6 +1040,7 @@ bool playGame()
             // Proteus bot 1 
             case 9:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -1059,6 +1079,7 @@ bool playGame()
                             {
                                 cout << "The proteus defeated you. Restarting fight." << endl;
                                 justDied = true;
+                                flag = true;
                                 break;
                             }
                         }
@@ -1074,6 +1095,9 @@ bool playGame()
             // Jane fight 
             case 10:
             {
+                system("cls");
+                cout << "Hey, look, I got here!" << endl;
+
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -1111,6 +1135,7 @@ bool playGame()
                         {
                             cout << "Jane defeated you. Restarting fight." << endl;
                             justDied = true;
+                            flag = true;
                             break;
                         }
                     }
@@ -1123,6 +1148,7 @@ bool playGame()
             // Aidan fight 
             case 11:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -1159,6 +1185,7 @@ bool playGame()
                         {
                             cout << "Aidan defeated you. Restarting fight." << endl;
                             justDied = true;
+                            flag = true;
                             break;
                         }
                     }
@@ -1171,6 +1198,8 @@ bool playGame()
             // Erma Fight
             case 12:
             {
+                system("cls");
+
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -1207,6 +1236,7 @@ bool playGame()
                         {
                             cout << "Erma defeated you. Restarting fight." << endl;
                             justDied = true;
+                            flag = true;
                             break;
                         }
                     }
@@ -1220,6 +1250,7 @@ bool playGame()
             // Barley Fight 
             case 13:
             {
+                system("cls");
                 // If they just died, reset to the previous savestate's values 
                 if (justDied)
                 {
@@ -1256,6 +1287,7 @@ bool playGame()
                         {
                             cout << "Barley defeated you. Restarting fight." << endl;
                             justDied = true;
+                            flag = true;
                             break;
                         }
                     }
@@ -1305,6 +1337,7 @@ bool playGame()
                         {
                             cout << "Clingan defeated you. Restarting Fight." << endl;
                             justDied = true;
+                            flag = true;
                             break;
                         }
                     }
@@ -1340,20 +1373,19 @@ int battle(Player *player, Enemy *enemy)
 
     // Loops until somebody dies or the user successfully ran from the battle 
     while (!canExitLoop)
-    {
-        // Resets the screen so everything can be redrawn at the top
-        system("cls");
-
-        // Displaying Health for both players
-        cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl;
-
+    {     
         /* Player Action */
         cout << "Options: " << endl;
         cout << "(1) Attack - Weapon" << endl;
         cout << "(2) Attack - Code Injection" << endl;
-        cout << "Your Choice: "; 
+        cout << "Your Choice: ";         
 
         cin >> userChoice;
+
+        system("cls");
+
+        // Displaying Health for both players
+        cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl;
 
         switch(userChoice)
         {
@@ -1418,8 +1450,6 @@ int battle(Player *player, Enemy *enemy)
             break; // You're dead, don't need to continue the battle any more
         }
     }
-
-    system("cls");
 
     /* Displaying result of the game to the user and returning the proper value */
     if (enemy -> getCurrentHP() <= 0)
