@@ -16,6 +16,8 @@
 
 #include <iostream>
 
+using namespace std;
+
 // Imports for the console version
 // Todo - Remove these when porting to proteus 
 
@@ -331,15 +333,27 @@ void displayCredits()
 // Will probably display stuff like number of times won, deaths, enemies killed, stuff like that idk 
 void displayStats()
 {
-    cout << "Game Statistics: " << endl;
+    // cout << "Game Statistics: " << endl;
+    LCD.WriteLine("Game Statistics: ");
 
+    /*
     cout << "Games Played: " << gamesPlayed << endl;
     cout << "Games Won: " << gamesWon << endl;
     cout << "Monsters Defeated: " << monstersDefeated << endl;
     cout << "Deaths: " << deaths << endl;
     cout << "Highest Level: " << highestLevel << endl;
+    */
+
+    // Aaaaand the proteus got annoying. 
+    // LCD.Write("") serves as a newline character.
+    LCD.Write("Games Played: "); LCD.Write(gamesPlayed); LCD.WriteLine("");
+    LCD.Write("Games Won: "); LCD.Write(gamesWon); LCD.WriteLine("");
+    LCD.Write("Enemies Defeated: "); LCD.Write(monstersDefeated); LCD.WriteLine("");
+    LCD.Write("Deaths: "); LCD.Write(deaths); LCD.WriteLine();
+    LCD.Write("Highest Level: "); LCD.Write(highestLevel); LCD.WriteLine();
 
     // Spacing 
-    cout << endl;
+    //cout << endl;
+    LCD.WriteLine();
 }
 
