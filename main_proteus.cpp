@@ -355,24 +355,14 @@ bool playGame()
     LCD.WriteLine("It all started that fateful night, many years ago. The FEH program had existed peacefully, as it had for years, serving as a haven for exploration and learning.");
     Sleep(SLEEP_TIME); // Sleep for 1k milliseconds
 
-    // cout << "And then that peace had been torn to shreds by Clingan and his conspirators that ";
-    // cout << "fateful day. Clingan and his teaching staff had risen up, and now held control of ";
-    // cout << "the FEH program. They had stormed Hitchcock at night, and held the rest of the ";
-    // cout << "teaching staff captive." << endl;
     LCD.WriteLine("And then that peace had been torn to shreds by Clingan and his conspirators that fateful day. Clingan and his teaching staff had risen up, and now held control of the FEH program. They had stormed Hitchcock at night, and held the rest of the teaching staff captive.");
     Sleep(SLEEP_TIME); // Sleep for specified time in ms
 
-    // cout << "Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take ";
-    // cout << "back Hitchcock." << endl << endl;
     LCD.WriteLine("Tonight was the night that we, the Anti-Clingan Freedom Front (ACFF), would take back Hitchcock.") LCD.WriteLine("");
     Sleep(SLEEP_TIME); // Sleep for specified time in ms
     
-    // cout << "You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?" << endl;
     LCD.WriteLine("You pass underneath the Tom W. Davis Clocktower. Do you pray for guidance?");
 
-    // cout << "(1) Yes" << endl;
-    // cout << "(2) No" << endl;
-    // cout << "Your Choice: ";
     LCD.WriteLine("(Touch Left Side) Yes");
     LCD.WriteLine("(Touch Right Side) No");
     LCD.Write("Your Choice:");
@@ -387,8 +377,6 @@ bool playGame()
             // Left side of screen 
             if (x >= 0 && x <= 150)
             {
-                // cout << "Tom W. Davis bestows his wisdom upon you." << endl;
-                // cout << "Strength and Intellect Increased by 5. Current and Max HP increased by 10." << endl;
                 LCD.WriteLine("Tom W. Davis bestows his wisdom upon you.");
                 LCD.WriteLine("Strength and Intellect Increased by 5. Current and Max HP increased by 10.");
 
@@ -404,8 +392,6 @@ bool playGame()
             // Right side of screen 
             else 
             {
-                // cout << "You are a deplorable human being if you choose to not worship the clocktower." << endl;
-                // cout << "Sense of time decreased by 5. You now have no clue what time it is." << endl;
                 LCD.WriteLine("You are a deplorable human being if you choose to not worship the clocktower.");
                 LCD.WriteLine("Sense of time decreased by 5. You now have no clue what time it is.");
 
@@ -415,14 +401,9 @@ bool playGame()
     }    
 
     // Choice 2 - Determines Stats 
-    // cout << "You stop for a bite to eat right before the righteous crusade." << endl;
-    // cout << "Which station at Scott do you stop?" << endl;   
     LCD.WriteLine("You stop for a bite to eat right before the righteous crusade.");
     LCD.WriteLine("Which station at Scott do you stop?");
 
-    // cout << "Options: " << endl;
-    // cout << "(1) Mongolian (Strength Up)" << endl;
-    // cout << "(2) Breakfast Station (Intellect Up)" << endl;   
     LCD.WriteLine("Options: ") ;
     LCD.WriteLine("(Tap Left Side) Mongolian (Strength Up)");
     LCD.WriteLine("(Tap Right Side) Breakfast Station (Intellect Up)");              
@@ -437,11 +418,10 @@ bool playGame()
         {     
             if (x >= 0 && x <= 150)
             {
-                // cout << "Waiting for Wok...." << endl;
                 LCD.WriteLine("Waiting for Wok...");
 
-                // Todo - Insert 5 second wait time 
-                // cout << "You had a hearty Mongolian meal. Strength increased by 5." << endl;
+                // Todo - Make this a longer wait time than the rest 
+
                 LCD.WriteLine("You had a hearty Mongolian meal. Strength increased by 5.");
                 
                 player.setStrength(player.getStrength() + 5);
@@ -450,7 +430,6 @@ bool playGame()
 
             else 
             {
-                // cout << "You had a hearty breakfast. Intellect increased by 5." << endl;
                 LCD.WriteLine("You had a hearty breakfast. Intellect increased by 5.");
 
                 player.setIntellect(player.getIntellect() + 5);
@@ -467,14 +446,10 @@ bool playGame()
     {
         player.setSavePointValues();
 
-        // cout << "Fight a proteus robot to gain more XP and raise your stats?" << endl;          
-        // cout << "(1) Yes" << endl;
-        // cout << "(2) No" << endl;  
         LCD.WriteLine("Fight a proteus robot to gain more XP and raise your stats?");
         LCD.WriteLine("(Touch Left Side) Yes");
         LCD.WriteLine("(Touch Right Side) No");
 
-        // cout << "Your Choice: ";
         LCD.WriteLine("Your Choice: ");
 
         // Waiting for input 
@@ -520,7 +495,6 @@ bool playGame()
         flag2 = false;
         while (!flag2)
         {
-            // cout << "Jane Fight: " << endl;
             LCD.WriteLine("Jane Fight: ");
 
             TA enemy;
@@ -546,7 +520,6 @@ bool playGame()
                 // Debug state 
                 default:
                 {
-                    // cout << "Smth screwed up in Jane fight." << endl;
                     LCD.WriteLine("Something screwed up in Jane fight.");
 
                     break;
@@ -560,7 +533,6 @@ bool playGame()
         flag2 = false;
         while (!flag2)
         {
-            // cout << "Aidan Fight: " << endl;
             LCD.WriteLine("Aidan Fight: ");
 
             TA enemy;
@@ -586,7 +558,6 @@ bool playGame()
                 // Debug state 
                 default:
                 {
-                    // cout << "Smth screwed up in Jane fight." << endl;
                     LCD.WriteLine("Something screwed up in Aidan fight.");
 
                     break;
@@ -598,8 +569,7 @@ bool playGame()
 
         flag2 = false;
         while (!flag2)
-        {
-            // cout << "Barley Fight" << endl;  
+        { 
             LCD.WriteLine("Barley Fight: ");
 
             TA enemy;
@@ -625,7 +595,6 @@ bool playGame()
                 // Debug state 
                 default:
                 {
-                    // cout << "Smth screwed up in Jane fight." << endl;
                     LCD.WriteLine("Something screwed up in Barley fight.");
                     break;
                 }
@@ -636,8 +605,7 @@ bool playGame()
 
         flag2 = false;
         while (!flag2)
-        {
-            // cout << "Erma Fight" << endl;     
+        {    
             LCD.WriteLine("Erma Fight: ");
 
             TA enemy;
@@ -664,7 +632,6 @@ bool playGame()
                 // Debug state 
                 default:
                 {
-                    // cout << "Smth screwed up in Jane fight." << endl;
                     LCD.WriteLine("Something screwed up in Erma fight.");
                     break;
                 }
@@ -676,7 +643,6 @@ bool playGame()
     flag = false;
     while (!flag)
     {
-        // cout << "Clingan Fight: " << endl;
         LCD.WriteLine("Clingan Fight: ");
 
         MrClingan enemy;
@@ -697,13 +663,11 @@ bool playGame()
 
             default: 
             {
-                // cout << "Unintented program behavior in Mr. Clingan switch statement." << endl;
                 LCD.WriteLine("Yo, Mr. Clingan control loop is screwed up");
             }
         }
     }
 
-    // cout << "Congratulations! You win!" << endl;
     LCD.WriteLine("Congratulations! You Win!");
     gamesWon++;
 }
@@ -736,10 +700,6 @@ int battle(Player *player, Enemy *enemy, const char *name)
         // Outputting results of last turn
         if (!isFirstTurn)
         {
-            // cout << "You did " << playerDamage << " damage that turn." << endl;
-            // cout << "You did " << playerHeal << " healing that turn." << endl;
-            // cout << "The monster did " << monsterDamage << " damage that turn." << endl << endl;
-
             LCD.Write("You did "); LCD.Write(playerDamage); LCD.WriteLine(" damage that turn");
             LCD.Write("You did "); LCD.Write(playerHeal); LCD.WriteLine(" healing that turn.");
             LCD.Write("The enemy did "); LCD.Write(monsterDamage); LCD.WriteLine(" damage that turn.");
@@ -751,17 +711,10 @@ int battle(Player *player, Enemy *enemy, const char *name)
         }
 
         // Displaying Health for both players
-        // cout << "Current Enemy: " << name << endl;
-        // cout << "Player Health: " << player -> getCurrentHP() << " | Enemy Health: " << enemy -> getCurrentHP() << endl << endl;
         LCD.Write("Current Enemy: "); LCD.Write(name); LCD.WriteLine("");
         LCD.Write("Player Health: "); LCD.Write(player -> getCurrentHP()); LCD.Write(" | Enemy Health: "); LCD.Write(enemy -> getCurrentHP()); LCD.WriteLine(""); LCD.WriteLine(""); // This was a fun line and I'm only putting this comment inline to make it even longer 
 
-        /* Player Action */
-        // cout << "Options: " << endl;
-        // cout << "(1) Attack - Weapon" << endl;
-        // cout << "(2) Attack - Code Injection" << endl;
-        // cout << "(3) Heal" << endl;
-        // cout << "Your Choice: ";         
+        /* Player Action */      
         LCD.WriteLine("Options: ");
         LCD.WriteLine("(1) Attack - Weapon");
         LCD.WriteLine("(2) Attack - Code Injection");
@@ -823,7 +776,6 @@ int battle(Player *player, Enemy *enemy, const char *name)
                 // Input validation 
                 default:
                 {
-                    // cout << "Illegitimate input." << endl;
                     LCD.WriteLine("Illegitimate Input");
                 }
             }            
@@ -832,7 +784,6 @@ int battle(Player *player, Enemy *enemy, const char *name)
         // Checking if the monster is dead 
         if (enemy -> getCurrentHP() <= 0)
         {
-            // cout << "You kilLCD the enemy! Level up!" << endl;
             LCD.WriteLine("You KilLCD The Enemy! Level Up!");
 
             player -> levelUp();
@@ -844,14 +795,12 @@ int battle(Player *player, Enemy *enemy, const char *name)
         /* Monster's turn */
         monsterDamage = (rand() % 10 + 1) * enemy -> getStrength() / 12;
         player -> setCurrentHP(player -> getCurrentHP() - monsterDamage);
-
-        // cout << "The monster did " << monsterDamage << " damage to you." << endl;      
+     
         LCD.Write("The monster did "); LCD.Write(monsterDamage); LCD.WriteLine(" damage to you.");
 
         // Checking if the player is dead
         if (player -> getCurrentHP() <= 0)
         {
-            // cout << "The enemy kilLCD you. Starting from most recent save point." << endl;
             LCD.WriteLine("The enemy kilLCD you. Starting from most recent save point.");
 
             deaths++;
@@ -864,34 +813,25 @@ int battle(Player *player, Enemy *enemy, const char *name)
 // Displays the rules of the game - Run when the user hits "Rules"
 void displayRules()
 {
-    // cout << "The rules are simple - SURVIVE." << endl;
     LCD.WriteLine("The rules are simple - SURVIVE, AND GET VENGEANCE.");
 
-    // cout << "There are save points after every encounter and at several other points. If you die, you will restart from the most recent point." << endl;
-    // cout << "Every monster you kill levels you up, so you are stronger and harder to kill." << endl;
-    // cout << "Enjoy!" << endl;
     LCD.WriteLine("There are save points after every encounter and at several other points. If you die, you will restart from the most recent point.");
     LCD.WriteLine("Every monster you kill levels you up, so you are stronger and harder to kill.");
     LCD.WriteLine("Enjoy!");
 
     // Spacing
-    // cout << endl;
     LCD.WriteLine("");
 }
 
 // Displays credits - Run when the user hits "credits"
 void displayCredits()
 {
-    // cout << "Credits: " << endl;
     LCD.WriteLine("Credits: ");
 
-    // cout << "Game by Anden Acitelli and Sri Uppalapati." << endl;
-    // cout << "Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were." << endl;
     LCD.WriteLine("Game by Anden Acitelli and Sri Uppalapati.");
     LCD.WriteLine("Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were.");
     
     // Spacing
-    // cout << endl;
     LCD.WriteLine("");
 }
 
@@ -899,16 +839,7 @@ void displayCredits()
 // Will probably display stuff like number of times won, deaths, enemies kilLCD, stuff like that idk 
 void displayStats()
 {
-    // cout << "Game Statistics: " << endl;
     LCD.WriteLine("Game Statistics: ");
-
-    /*
-    cout << "Games Played: " << gamesPlayed << endl;
-    cout << "Games Won: " << gamesWon << endl;
-    cout << "Monsters Defeated: " << monstersDefeated << endl;
-    cout << "Deaths: " << deaths << endl;
-    cout << "Highest Level: " << highestLevel << endl;
-    */
 
     // Aaaaand the proteus got annoying. 
     // LCD.Write("") serves as a newline character.
@@ -919,7 +850,6 @@ void displayStats()
     LCD.Write("Highest Level: "); LCD.Write(highestLevel); LCD.WriteLine();
 
     // Spacing 
-    // cout << endl;
     LCD.WriteLine();
 }
 
