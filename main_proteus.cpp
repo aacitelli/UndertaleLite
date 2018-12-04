@@ -24,6 +24,212 @@
 #define BLACK FEHLCD::Black
 #define WHITE FEHLCD::White
 
+// Game Statistics 
+int gamesPlayed, gamesWon, monstersDefeated, deaths, highestLevel;
+
+// The player class - What the user plays as 
+class Player
+{
+    public: 
+
+        /* There is zero chance that what I'm about to do is best practice, but here we go nonetheless */ 
+
+        /* Retrieval Methods */
+        int getCurrentHP()
+        {
+            return currentHP; 
+        }
+
+        int getMaxHP()
+        {
+            return maxHP;
+        }
+
+        int getStrength()
+        {
+            return strength;
+        }
+
+        int getIntellect()
+        {
+            return intellect;
+        }  
+
+        /* Assignment Methods */
+        void setCurrentHP(int hp)
+        {
+            currentHP = hp;
+        }
+
+        void setMaxHP(int hp)
+        {
+            maxHP = hp;
+        }   
+
+        int setStrength(int parameter)
+        {
+            strength = parameter;
+        }  
+
+        int setIntellect(int parameter)
+        {
+            intellect = parameter;
+        }
+
+        void heal()
+        {
+            if (maxHP - currentHP < 30)
+            {
+                currentHP = maxHP;
+            }
+
+            else
+            {
+                currentHP += 30;
+            }
+        }
+
+        /* Save Point Methods */       
+
+        // Backs up values so they can be restored to upon death 
+        void setSavePointValues()
+        {
+            spMaxHP = maxHP;
+            spStrength = strength;
+            spIntellect = intellect;
+        }
+
+        void restoreSavePointValues()
+        {
+            currentHP = maxHP;
+            maxHP = spMaxHP;
+            strength = spStrength;
+            intellect = spIntellect;
+        }
+
+        void levelUp()
+        {
+            cout << "Leveled Up." << endl;
+
+            // Turns out with how I did scaling making current hp go up every level is a little op and means you literally can't die even if you try 
+            maxHP += 10;
+            strength += 2;
+            intellect += 2;
+            currentLevel++;
+
+            // Stats tracking 
+            if (currentLevel > highestLevel)
+            {
+                highestLevel = currentLevel;
+            }
+        }        
+
+    private: 
+
+        // Base values - These can range from 0 to 100 theoretically 
+        int currentHP = 300, maxHP = 300, strength = 10, intellect = 10;
+        int currentLevel = 1;    
+        
+        // Save point values
+        int spMaxHP = 300, spStrength = 10, spIntellect = 10;
+};
+
+// Enemy class
+class Enemy
+{
+    public: 
+
+        /* Retrieval Functions */
+
+        int getCurrentHP()
+        {
+            return currentHP; 
+        }
+
+        int getMaxHP()
+        {
+            return maxHP;
+        }
+
+        // Determines how hard the enemies hit 
+        int getStrength()
+        {
+            return strength;
+        }
+
+        /* Assignment Functions */
+
+        void setCurrentHP(int hp)
+        {
+            currentHP = hp;
+        }
+
+        void setMaxHP(int hp)
+        {
+            maxHP = hp;
+        }                
+
+    private: 
+
+        int strength = 50, currentHP, maxHP;
+    
+};
+
+// Proteus bot class
+class ProteusBot : public Enemy
+{
+    public: 
+
+        // Declaring the constructor
+        ProteusBot();
+
+    private:   
+};
+
+// TA class
+class TA : public Enemy
+{
+    public: 
+
+        // Declaring the constructor
+        TA();
+
+    private:     
+};
+
+// Clingan class 
+class MrClingan : public Enemy
+{
+    public: 
+
+        // Declaring the constructor 
+        MrClingan();
+
+    private: 
+    
+};
+
+// Proteus bot constructor 
+ProteusBot::ProteusBot()
+{
+    setCurrentHP(100);
+    setMaxHP(100);
+}
+
+// TA constructor
+TA::TA()
+{
+    setCurrentHP(250);
+    setMaxHP(250);
+}
+
+// Mr Clingan's very own constructor
+MrClingan::MrClingan()
+{
+    setCurrentHP(400);
+    setMaxHP(400);
+}
+
 // Function Prototypes
 void drawMenu(FEHIcon::Icon *buttons, char labels[][20]);
 bool playGame(); 
