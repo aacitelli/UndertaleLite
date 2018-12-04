@@ -26,6 +26,11 @@
 
 // Function Prototypes
 void drawMenu(FEHIcon::Icon *buttons, char labels[][20]);
+bool playGame(); 
+int battle(Player* player, Enemy* enemy, const char *name);
+void displayRules();
+void displayCredits();
+void displayStats();
 
 int main(void)
 {
@@ -89,5 +94,46 @@ void drawMenu(FEHIcon::Icon *buttons, char labels[][20])
     // margins of 10 and left and right margins of 5
     // with the menu labels, gold borders, and green text
     FEHIcon::DrawIconArray(buttons, 2, 2, 10, 10, 5, 5, labels, GOLD, GREEN);
+}
+
+// Displays the rules of the game - Run when the user hits "Rules"
+void displayRules()
+{
+    cout << "The rules are simple - SURVIVE." << endl;
+
+    cout << "There are save points after every encounter and at several other points. If you die, you will restart from the most recent point." << endl;
+    cout << "Every monster you kill levels you up, so you are stronger and harder to kill." << endl;
+    cout << "Enjoy!" << endl;
+
+    // Spacing
+    cout << endl;
+}
+
+// Displays credits - Run when the user hits "credits"
+void displayCredits()
+{
+    cout << "Credits: " << endl;
+
+    cout << "Game by Anden Acitelli and Sri Uppalapati." << endl;
+    cout << "Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were." << endl;
+    
+    // Spacing
+    cout << endl;
+}
+
+// Displays Stats  - Run when the user hits "stats"
+// Will probably display stuff like number of times won, deaths, enemies killed, stuff like that idk 
+void displayStats()
+{
+    cout << "Game Statistics: " << endl;
+
+    cout << "Games Played: " << gamesPlayed << endl;
+    cout << "Games Won: " << gamesWon << endl;
+    cout << "Monsters Defeated: " << monstersDefeated << endl;
+    cout << "Deaths: " << deaths << endl;
+    cout << "Highest Level: " << highestLevel << endl;
+
+    // Spacing 
+    cout << endl;
 }
 
