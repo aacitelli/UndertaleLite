@@ -320,13 +320,17 @@ void displayRules()
 // Displays credits - Run when the user hits "credits"
 void displayCredits()
 {
-    cout << "Credits: " << endl;
+    // cout << "Credits: " << endl;
+    LCD.WriteLine("Credits: ");
 
-    cout << "Game by Anden Acitelli and Sri Uppalapati." << endl;
-    cout << "Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were." << endl;
+    // cout << "Game by Anden Acitelli and Sri Uppalapati." << endl;
+    // cout << "Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were." << endl;
+    LCD.WriteLine("Game by Anden Acitelli and Sri Uppalapati.");
+    LCD.WriteLine("Shoutout to Clingan and his teaching staff for being subjects of this game, whether or not they knew they were.");
     
     // Spacing
-    cout << endl;
+    // cout << endl;
+    LCD.WriteLine("");
 }
 
 // Displays Stats  - Run when the user hits "stats"
@@ -353,7 +357,7 @@ void displayStats()
     LCD.Write("Highest Level: "); LCD.Write(highestLevel); LCD.WriteLine();
 
     // Spacing 
-    //cout << endl;
+    // cout << endl;
     LCD.WriteLine();
 }
 
