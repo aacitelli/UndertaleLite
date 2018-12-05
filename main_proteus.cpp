@@ -472,6 +472,7 @@ bool playGame()
     while (!doneFightingRobots)
     {
         player.setSavePointValues();
+        LCD.Clear(BLACK);
 
         LCD.WriteLine("Fight a proteus robot to gain more XP and raise your stats?");
         LCD.WriteLine("Touch Left Side) Yes");
@@ -626,7 +627,7 @@ int battle(Player *player, Enemy *enemy, const char *name)
 {
     // This variable gets changed whenever a condition to exit gets tripped
     bool canExitLoop = false;
-    int userChoice, playerDamage, monsterDamage, playerHeal;
+    int userChoice, playerDamage = 0, monsterDamage = 0, playerHeal = 0;
 
     bool flag, isFirstTurn = true;
 
@@ -640,9 +641,9 @@ int battle(Player *player, Enemy *enemy, const char *name)
         // Outputting results of last turn
         if (!isFirstTurn)
         {
-            LCD.Write("You did "); LCD.Write(playerDamage); LCD.WriteLine(" damage that turn");
-            LCD.Write("You did "); LCD.Write(playerHeal); LCD.WriteLine(" healing that turn.");
-            LCD.Write("The enemy did "); LCD.Write(monsterDamage); LCD.WriteLine(" damage that turn.");
+            LCD.Write("You did "); LCD.Write(playerDamage); LCD.WriteLine(" damage.");
+            LCD.Write("You did "); LCD.Write(playerHeal); LCD.WriteLine(" healing.");
+            LCD.Write("The enemy did "); LCD.Write(monsterDamage); LCD.WriteLine(" damage.");
         }
 
         else
@@ -652,12 +653,12 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
         // Displaying Health for both players
         LCD.Write("Current Enemy: "); LCD.Write(name); LCD.WriteLine("");
-        LCD.Write("Player Health: "); LCD.Write(player -> getCurrentHP()); LCD.Write(" | Enemy Health: "); LCD.Write(enemy -> getCurrentHP()); LCD.WriteLine(""); LCD.WriteLine(""); // This was a fun line and I'm only putting this comment inline to make it even longer
+        LCD.Write("Player HP: "); LCD.Write(player -> getCurrentHP()); LCD.Write(" | Enemy HP: "); LCD.Write(enemy -> getCurrentHP()); LCD.WriteLine(""); // This was a fun line and I'm only putting this comment inline to make it even longer
 
         /* Player Action */
-        LCD.WriteLine("(Left 3rd of Screen) Attack - Weapon");
-        LCD.WriteLine("(Middle 3rd of Screen) Attack - Code Injection");
-        LCD.WriteLine("(Right 3rd of Screen) Heal");
+        LCD.WriteLine("(Left 3rd) Attack - Weapon");
+        LCD.WriteLine("(Middle 3rd) Attack - Code Injection");
+        LCD.WriteLine("(Right 3rd) Heal");
 
         /* User's turn */
         flag = false;
