@@ -26,7 +26,7 @@ using namespace std;
 // These ones just cut down on code we have to write
 #define BLACK FEHLCD::Black
 #define WHITE FEHLCD::White
-#define SLEEP_TIME 3.0 // Time to sleep in between lines
+#define SLEEP_TIME 6.0 // Time to sleep in between lines
 
 /* TODO IN CLASS
 
@@ -119,7 +119,7 @@ class Player
 
         void restoreSavePointValues()
         {
-            currentHP = maxHP;
+            currentHP = spMaxHP;
             maxHP = spMaxHP;
             strength = spStrength;
             intellect = spIntellect;
@@ -529,7 +529,7 @@ bool playGame()
             case 1:
             {
                 TA enemy;
-                const char *enemyName = "Jane";
+                const char *enemyName = "Jarn";
                 battleResult = battle(&player, &enemy, enemyName);
 
                 if (battleResult == 0)
@@ -542,7 +542,7 @@ bool playGame()
             case 2:
             {
                 TA enemy;
-                const char *enemyName = "Aidan";
+                const char *enemyName = "Aiden";
                 battleResult = battle(&player, &enemy, enemyName);
 
                 if (battleResult == 0)
@@ -666,7 +666,7 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
         bool alreadyTouchedThisTurn = false;
         // Loops until the user selects an option
-        while (!LCD.Touch(&x, &y))
+        do
         {
             if (LCD.Touch(&x, &y) && !alreadyTouchedThisTurn)
             {
@@ -728,7 +728,7 @@ int battle(Player *player, Enemy *enemy, const char *name)
 
                 break;
             }
-        }
+        } while (!LCD.Touch(&x, &y));
 
         alreadyTouchedThisTurn = false;
     }
